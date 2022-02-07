@@ -1,8 +1,9 @@
 package model;
 
+import com.sun.codemodel.internal.JForEach;
+
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 public class Tracker {
     private ArrayList<Expense> expenses;
@@ -48,39 +49,18 @@ public class Tracker {
         if (categoryNames.contains(categoryName)) {
             category = findCategory(categoryName);
             expenses.add(expense);
-            totalSpent = totalBudget + amount;
+            totalSpent = totalSpent + amount;
             amountLeftInBudget = totalBudget - totalSpent;
             notifyNearBudget();
             notifyOverBudget();
             category.expenseInCategory(amount);
-            category.notifyOverCategoryBudget(category);
+            category.notifyNearCategoryBudget(category);
             category.notifyOverCategoryBudget(category);
         } else {
             System.out.println("The Category for this expense does not exist");
         }
     }
 
-    public Category findCategory(String name) {
-        for (Category category : categories) {
-            if (category.getCategoryName() == name) {
-                return category;
-            }
-        }
-    }
-
-    // REQUIRES: item string length is non-zero, amount >= 0
-    // MODIFIES: this
-    // EFFECTS: Removes an already existing Expense from expenses
-    /* public void removeExpense(String category, String item, double amount) {
-        if (expenses.contains(expense)) {
-            expenses.remove(expense);
-            totalSpent = totalSpent - amount;
-            amountLeftInBudget = amountOverBudget + amount;
-        } else {
-            System.out.println("This expense does not exist");
-        }
-    }
-*/
     // REQUIRES: name length is non-zero, amount >= 0
     // MODIFIES: this
     // EFFECTS: Creates a new category if it doesn't already exist
@@ -94,32 +74,79 @@ public class Tracker {
         }
     }
 
- /*   public void removeCategory(String name, double amount) {
-        Category category = new Category(name, amount);
-        if (categories.contains(category)) {
-            for (Expense expense : expenses) {
-                // for every expense, check if category is used, if so then cannot remove category, but if not then
-                // remove}
+    // REQUIRES: categoryName length is non-zero
+    // MODIFIES: this
+    // EFFECTS: Removes category from list of categories if it exists and is not being used
+    public void removeCategory(String categoryName) {
+        if (doesCategoryExist(categoryName)) {
+            if (isCategoryUsed(categoryName)) {
+                System.out.println("This category is being used and cannot be removed.");
+            } else {
+                categories.remove(findCategory(categoryName));
+                categoryNames.remove(categoryName);
+            }
         } else {
-            System.out.println("This category does not exist");
+            System.out.println("This category does not exist.");
         }
-    }}
+    }
 
-    public boolean isCategoryUsed(Expense expense, Category category) {
-        if (expense.getCategory() == category) {
+    // REQUIRES: categoryName length is non-zero
+    // EFFECTS: Shows expenses for a certain category
+    public void showExpensesForCategory(String categoryName) {
+        if (doesCategoryExist(categoryName)) {
+            category = findCategory(categoryName);
+            for (Expense expense : expenses) {
+                if (expense.getCategoryName().equals(categoryName)) {
+                    System.out.println("You bought " + expense.getItemName()
+                            + " for " + expense.getMoneySpent() + " in the "
+                            + expense.getCategoryName() + " category.");
+                }
+            }
+        } else {
+            System.out.println("This category does not exist.");
+        }
+    }
+
+
+    // REQUIRES: categoryName length is non-zero
+    public boolean doesCategoryExist(String categoryName) {
+        if (categoryNames.contains(categoryName)) {
             return true;
         } else {
             return false;
         }
-    }*/
+    }
+
+    // REQUIRES: name length is non,zero
+    // EFFECTS: Returns category in list of categories given it's name
+    public Category findCategory(String name) {
+        for (Category category : categories) {
+            if (category.getCategoryName().equals(name)) {
+                return category;
+            }
+        }
+        return null;
+    }
+
+    // REQUIRES: name length is non-zero
+    // EFFECTS: Returns true if an expense has a category with the given category name
+    // otherwise false
+    public boolean isCategoryUsed(String name) {
+        for (Expense expense : expenses) {
+            if (expense.getCategoryName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     // EFFECTS: Notifies user when amount left in budget is less than notification level but more than 0
     public boolean notifyNearBudget() {
-        if (amountLeftInBudget < budgetNotifcation) {
+        if (amountLeftInBudget <= budgetNotifcation) {
             if (amountLeftInBudget < 0) {
                 return false;
             }
-            System.out.println("Warning: You only have " + amountLeftInBudget + " left in your budget");
+            System.out.println("Warning: You only have $" + amountLeftInBudget + " left in your budget");
             return true;
         } else {
             return false;
@@ -140,8 +167,8 @@ public class Tracker {
     // EFFECTS: Shows user all expenses
     public void showAllExpenses() {
         for (Expense expense : expenses) {
-            System.out.println("You bought" + expense.getItemName() + " for " + expense.getMoneySpent() + "in the "
-                    + expense.getCategory() + "category.");
+            System.out.println("You bought " + expense.getItemName() + " for " + expense.getMoneySpent() + " in the "
+                    + expense.getCategoryName() + " category.");
         }
     }
 
@@ -151,6 +178,22 @@ public class Tracker {
         for (Category category : categories) {
             System.out.println(category.getCategoryName());
         }
+    }
+
+    // EFFECTS: Shows user how much they have spent in total
+    public void showTotalSpent() {
+        System.out.println("You have spent $" + totalSpent + " in total.");
+    }
+
+    // EFFECTS: Shows user their current set budget
+    public void showTotalBudget() {
+        System.out.println("Your budget is $" + totalBudget + ".");
+    }
+
+    // EFFECTS: Shows user their current set budget notification
+    public void showBudgetNotifcation() {
+        System.out.println("You will get notifications when you have $" + budgetNotifcation
+                + " left in your budget.");
     }
 
     public double getBudgetNotification() {

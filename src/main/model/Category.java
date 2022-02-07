@@ -51,11 +51,12 @@ public class Category {
     // MODIFIES: this
     // EFFECTS: Notifies user if amountSpent < budgetCutoff;
     public boolean notifyNearCategoryBudget(Category category) {
-        if (categoryAmountLeftInBudget < categoryBudgetNotifcation) {
+        if (categoryAmountLeftInBudget <= categoryBudgetNotifcation) {
             if (categoryAmountLeftInBudget < 0) {
                 return false;
             }
-            System.out.println("Warning: You only have " + categoryAmountLeftInBudget + " left in your budget");
+            System.out.println("Warning: You only have $" + categoryAmountLeftInBudget + " left in your "
+                    + categoryName + " Category");
             return true;
         } else {
             return false;
@@ -68,11 +69,28 @@ public class Category {
     public boolean notifyOverCategoryBudget(Category category) {
         if (amountSpent > budget) {
             categoryAmountOverBudget = amountSpent - budget;
-            System.out.println("You are over budget by $" + categoryAmountOverBudget);
+            System.out.println("You are over budget by $" + categoryAmountOverBudget + " in the "
+                    + categoryName + " category");
             return true;
         } else {
             return false;
         }
+    }
+
+    // EFFECTS: Shows user how much they have spent in total in the category
+    public void showCategorySpent() {
+        System.out.println("You have spent $" + amountSpent + " in the " + categoryName + " category.");
+    }
+
+    // EFFECTS: Shows user their current set budget in the category
+    public void showCategoryBudget() {
+        System.out.println("Your budget is $" + budget + " in the " + categoryName + " category.");
+    }
+
+    // EFFECTS: Shows user their current set budget notification in the category
+    public void showCategoryBudgetNotification() {
+        System.out.println("You will get notifications when you have $" + categoryBudgetNotifcation
+                + " left in your " + categoryName + " category budget.");
     }
 
     public double getAmountSpent() {

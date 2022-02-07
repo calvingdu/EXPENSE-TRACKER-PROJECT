@@ -63,10 +63,19 @@ public class CategoryTest {
     }
 
     @Test
-    void testExpenseNearBudget() {
-        testCategory.expenseInCategory(451);
-        assertEquals(451, testCategory.getAmountSpent());
-        assertEquals(49, testCategory.getCategoryAmountLeftInBudget());
+    void testExpenseNearBudgetUpperBound() {
+        testCategory.expenseInCategory(500);
+        assertEquals(500, testCategory.getAmountSpent());
+        assertEquals(0, testCategory.getCategoryAmountLeftInBudget());
+        assertTrue(testCategory.notifyNearCategoryBudget(testCategory));
+        assertFalse(testCategory.notifyOverCategoryBudget(testCategory));
+    }
+
+    @Test
+    void testExpenseNearBudgetLowerBound() {
+        testCategory.expenseInCategory(450);
+        assertEquals(450, testCategory.getAmountSpent());
+        assertEquals(50, testCategory.getCategoryAmountLeftInBudget());
         assertTrue(testCategory.notifyNearCategoryBudget(testCategory));
         assertFalse(testCategory.notifyOverCategoryBudget(testCategory));
     }
@@ -84,5 +93,14 @@ public class CategoryTest {
         assertEquals(-500, testCategory.getCategoryAmountLeftInBudget());
         assertFalse(testCategory.notifyNearCategoryBudget(testCategory));
         assertTrue(testCategory.notifyOverCategoryBudget(testCategory));
+    }
+
+    @Test
+    void testCategoryAnnouncements() {
+        testCategory.expenseInCategory(200);
+        testCategory.showCategoryBudget();
+        testCategory.showCategorySpent();
+        testCategory.showCategoryBudgetNotification();
+
     }
 }
