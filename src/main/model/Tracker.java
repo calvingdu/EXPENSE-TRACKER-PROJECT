@@ -127,6 +127,8 @@ public class Tracker {
                     return true;
                 }
             }
+        } else {
+            return false;
         }
         return false;
     }

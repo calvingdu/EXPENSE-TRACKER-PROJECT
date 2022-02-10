@@ -122,16 +122,37 @@ public class TrackerTest {
     }
 
     @Test
-    void testFindCategoryNoTExist() {
+    void testFindCategory() {
+        assertEquals(testTracker.findCategory("Clothes"), testTracker.findCategory("Clothes"));
+    }
+
+    @Test
+    void testFindCategoryNotExist() {
         assertNull(testTracker.findCategory("NotReal"));
     }
 
+    @Test
+    void testIsCategoryUsed() {
+        testTracker.addExpense("Clothes", "Shirt", 100);
+        assertTrue(testTracker.isCategoryUsed("Clothes"));
+
+        testTracker.newCategory("Groceries", 100);
+        assertFalse(testTracker.isCategoryUsed("Groceries"));
+        assertFalse(testTracker.isCategoryUsed("Textbooks"));
+    }
 
     @Test
     void testChangeCategoryName() {
         testTracker.changeCategoryName("Clothes", "Groceries");
         assertTrue(testTracker.doesCategoryExist("Groceries"));
         assertFalse(testTracker.doesCategoryExist("Clothes"));
+    }
+
+    @Test
+    void testChangeCategoryNameCategoryDoesntExist() {
+        testTracker.changeCategoryName("Textbooks", "Groceries");
+        assertFalse(testTracker.doesCategoryExist("Groceries"));
+        assertTrue(testTracker.doesCategoryExist("Clothes"));
     }
 
     @Test
