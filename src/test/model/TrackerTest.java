@@ -39,8 +39,8 @@ public class TrackerTest {
         testTracker.newCategory("Groceries", 1000);
         assertEquals("Clothes", testTracker.getCategories().get(0).getCategoryName());
         assertEquals("Groceries", testTracker.getCategories().get(1).getCategoryName());
-        assertEquals(100, testTracker.getCategories().get(0).getBudget());
-        assertEquals(1000, testTracker.getCategories().get(1).getBudget());
+        assertEquals(100, testTracker.getCategories().get(0).getCategoryBudget());
+        assertEquals(1000, testTracker.getCategories().get(1).getCategoryBudget());
         assertEquals(2, testTracker.getCategories().size());
     }
 
@@ -49,15 +49,15 @@ public class TrackerTest {
         testTracker.newCategory("Groceries", 1000);
         assertEquals("Clothes", testTracker.getCategories().get(0).getCategoryName());
         assertEquals("Groceries", testTracker.getCategories().get(1).getCategoryName());
-        assertEquals(100, testTracker.getCategories().get(0).getBudget());
-        assertEquals(1000, testTracker.getCategories().get(1).getBudget());
+        assertEquals(100, testTracker.getCategories().get(0).getCategoryBudget());
+        assertEquals(1000, testTracker.getCategories().get(1).getCategoryBudget());
         assertEquals(2, testTracker.getCategories().size());
 
         testTracker.newCategory("Groceries", 250);
         assertEquals("Clothes", testTracker.getCategories().get(0).getCategoryName());
         assertEquals("Groceries", testTracker.getCategories().get(1).getCategoryName());
-        assertEquals(100, testTracker.getCategories().get(0).getBudget());
-        assertEquals(1000, testTracker.getCategories().get(1).getBudget());
+        assertEquals(100, testTracker.getCategories().get(0).getCategoryBudget());
+        assertEquals(1000, testTracker.getCategories().get(1).getCategoryBudget());
         assertEquals(2, testTracker.getCategories().size());
     }
 
@@ -65,23 +65,23 @@ public class TrackerTest {
     void testRepeatThenNewCategory() {
         testTracker.newCategory("Groceries", 1000);
         assertEquals("Groceries", testTracker.getCategories().get(1).getCategoryName());
-        assertEquals(100, testTracker.getCategories().get(0).getBudget());
-        assertEquals(1000, testTracker.getCategories().get(1).getBudget());
+        assertEquals(100, testTracker.getCategories().get(0).getCategoryBudget());
+        assertEquals(1000, testTracker.getCategories().get(1).getCategoryBudget());
         assertEquals(2, testTracker.getCategories().size());
 
         testTracker.newCategory("Groceries", 250);
         assertEquals("Groceries", testTracker.getCategories().get(1).getCategoryName());
-        assertEquals(100, testTracker.getCategories().get(0).getBudget());
-        assertEquals(1000, testTracker.getCategories().get(1).getBudget());
+        assertEquals(100, testTracker.getCategories().get(0).getCategoryBudget());
+        assertEquals(1000, testTracker.getCategories().get(1).getCategoryBudget());
         assertEquals(2, testTracker.getCategories().size());
 
         testTracker.newCategory("UBC Textbooks", 1);
         assertEquals("Clothes", testTracker.getCategories().get(0).getCategoryName());
         assertEquals("Groceries", testTracker.getCategories().get(1).getCategoryName());
         assertEquals("UBC Textbooks", testTracker.getCategories().get(2).getCategoryName());
-        assertEquals(100, testTracker.getCategories().get(0).getBudget());
-        assertEquals(1000, testTracker.getCategories().get(1).getBudget());
-        assertEquals(1, testTracker.getCategories().get(2).getBudget());
+        assertEquals(100, testTracker.getCategories().get(0).getCategoryBudget());
+        assertEquals(1000, testTracker.getCategories().get(1).getCategoryBudget());
+        assertEquals(1, testTracker.getCategories().get(2).getCategoryBudget());
         assertEquals(3, testTracker.getCategories().size());
     }
 
@@ -93,6 +93,13 @@ public class TrackerTest {
     }
 
     @Test
+    void testRemoveCategoryDoesntExist() {
+        testTracker.removeCategory("DoesntExist");
+        assertFalse(testTracker.getCategories().isEmpty());
+        assertFalse(testTracker.getCategoryNames().isEmpty());
+    }
+
+    @Test
     void testAddThenRemoveCategory() {
         testTracker.newCategory("Textbooks", 500);
         assertEquals(2, testTracker.getCategories().size());
@@ -100,6 +107,18 @@ public class TrackerTest {
         testTracker.removeCategory("Textbooks");
         assertEquals(1, testTracker.getCategories().size());
         assertEquals(1, testTracker.getCategoryNames().size());
+    }
+
+    @Test
+    void testSetCategoryBudget() {
+        testTracker.setCategoryBudget("Clothes",90);
+        assertEquals(90, testTracker.findCategory("Clothes").getCategoryBudget());
+    }
+
+    @Test
+    void testSetCategoryBudgetNotification() {
+        testTracker.setCategoryBudgetNotification("Clothes",50);
+        assertEquals(50, testTracker.findCategory("Clothes").getCategoryBudgetNotification());
     }
 
     @Test
@@ -172,8 +191,8 @@ public class TrackerTest {
         assertEquals("CPSC", testTracker.getExpenses().get(1).getItemName());
         assertEquals(200, testTracker.getExpenses().get(1).getMoneySpent());
 
-        assertEquals(100,testTracker.getCategories().get(0).getAmountSpent());
-        assertEquals(200,testTracker.getCategories().get(1).getAmountSpent());
+        assertEquals(100,testTracker.getCategories().get(0).getCategoryAmountSpent());
+        assertEquals(200,testTracker.getCategories().get(1).getCategoryAmountSpent());
     }
 
     @Test
@@ -216,44 +235,20 @@ public class TrackerTest {
     }
 
     @Test
-    void testShowAllExpenses() {
-        testTracker.newCategory("Textbooks", 600);
-        testTracker.addExpense("Clothes", "Shirt", 50);
-        testTracker.addExpense("Clothes", "Shirt", 45);
-        testTracker.addExpense("Textbooks", "CPSC", 90);
-        testTracker.addExpense("Textbooks", "Math", 90);
-        assertEquals(4,testTracker.getExpenses().size());
-        testTracker.showAllExpenses();
+    void testShowCategoryBudget() {
+        assertEquals(100, testTracker.showCategoryBudget("Clothes"));
     }
 
     @Test
-    void testShowExpensesForCategory() {
-        testTracker.newCategory("Textbooks", 600);
-        testTracker.addExpense("Clothes", "Shirt", 50);
-        testTracker.addExpense("Clothes", "Shirt", 45);
-        testTracker.addExpense("Textbooks", "CPSC", 90);
-        testTracker.addExpense("Textbooks", "Math", 90);
-        testTracker.showExpensesForCategory("Textbooks");
-        assertTrue(testTracker.doesCategoryExist("Textbooks"));
-        assertFalse(testTracker.doesCategoryExist("Groceries"));
-        assertFalse(testTracker.isCategoryUsed("Groceries"));
-        assertTrue(testTracker.isCategoryUsed("Textbooks"));
+    void testShowCategoryBudgetNotification() {
+        testTracker.setCategoryBudgetNotification("Clothes", 75);
+        assertEquals(75, testTracker.showCategoryBudgetNotifcation("Clothes"));
     }
 
     @Test
-    void testShowAllCategories() {
-        testTracker.newCategory("Textbooks", 600);
-        testTracker.newCategory("Food", 600);
-        assertEquals(3,testTracker.getCategories().size());
-        testTracker.showAllCategories();
-    }
-
-    @Test
-    void testAnnouncements() {
-        testTracker.addExpense("Clothes", "Shirt", 200);
-        testTracker.showBudgetNotifcation();
-        testTracker.showTotalSpent();
-        testTracker.showTotalBudget();
+    void testShowCategoryAmountLeftBudget() {
+        testTracker.addExpense("Clothes","Carrots",20);
+        assertEquals(80,testTracker.showCategoryAmountLeftInBudget("Clothes"));
     }
 }
 
