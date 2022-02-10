@@ -10,6 +10,8 @@ public class TrackerApp {
     private Tracker tracker;
     private Scanner input;
     private String specificccategoryname;
+    private String categoryname;
+    private Category category;
 
     //EFFECTS: Runs the Tracker App
     public TrackerApp() {
@@ -62,6 +64,10 @@ public class TrackerApp {
         tracker = new Tracker();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
+        System.out.println("Let's do some setup!");
+        doSetTotalBudget();
+        doSetBudgetNotification();
+        doNewCategory();
     }
 
     // EFFECTS: displays menu options to user
@@ -79,34 +85,40 @@ public class TrackerApp {
     // EFFECTS: Adds an expense given a category name, item name and expense amount
     private void doAddExpense() {
         System.out.print("Enter category for expense: ");
-        String categoryName = doSelectCategoryName();
-        Category category = tracker.findCategory(categoryName);
-        System.out.print("Enter item name for expense: ");
-        String itemName = doAddItemName();
-        System.out.print("Enter expense amount: ");
-        double amount = doAddExpenseAmount();
+        categoryname = doSelectCategoryName();
+        if (tracker.doesCategoryExist(categoryname)) {
+            category = tracker.findCategory(categoryname);
+            System.out.print("Enter item name for expense: ");
+            String itemName = doAddItemName();
+            System.out.print("Enter expense amount: ");
+            double amount = doAddExpenseAmount();
 
-        tracker.addExpense(categoryName, itemName, amount);
-        System.out.println("Successfully added expense: " + categoryName + "/" + itemName + "/$" + amount);
+            tracker.addExpense(categoryname, itemName, amount);
+            System.out.println("Successfully added expense: " + categoryname + "/" + itemName + "/$" + amount);
 
+            expenseNotifications();
+        } else {
+            System.out.println("This category does not exist");
+        }
+    }
+
+    private void expenseNotifications() {
         if (tracker.notifyOverBudget()) {
             System.out.println("Warning: You have $" + tracker.getAmountLeftInBudget() + " left in your budget");
         }
-
         if (tracker.notifyNearBudget()) {
             System.out.println("You are over budget by $" + tracker.getAmountOverBudget());
         }
-
         if (category.notifyNearCategoryBudget(category)) {
             System.out.println("Warning: You have $" + category.getCategoryAmountLeftInBudget() + " left in your "
-                    + categoryName + " Category");
+                    + categoryname + " Category");
         }
-
         if (category.notifyOverCategoryBudget(category)) {
             System.out.println("You are over budget by $" + category.getCategoryAmountOverBudget() + " in the "
-                    + categoryName + " category");
+                    + categoryname + " category");
         }
     }
+
 
     // MODIFIES: this
     // EFFECTS: Returns string of category name if a category with the inputted name exists
@@ -120,8 +132,7 @@ public class TrackerApp {
             System.out.println("Category Selected: " + categoryName);
             return categoryName;
         } else {
-            System.out.println("This category does not exist");
-            return null;
+            return "";
         }
     }
 
@@ -227,7 +238,7 @@ public class TrackerApp {
     // EFFECTS: Prompts user to change total budget and then changes the budget to the double they select
     private void doSetTotalBudget() {
         System.out.println("Input amount to set your total budget: ");
-        Double amount = input.nextDouble();
+        double amount = input.nextDouble();
         tracker.setTotalBudget(amount);
     }
 
@@ -235,7 +246,7 @@ public class TrackerApp {
     // EFFECTS: Prompts user to change budget notification and then changes it to the double they select
     private void doSetBudgetNotification() {
         System.out.println("Input amount to be notified at: ");
-        Double amount = input.nextDouble();
+        double amount = input.nextDouble();
         tracker.setBudgetNotifcation(amount);
     }
 
@@ -278,7 +289,7 @@ public class TrackerApp {
     // EFFECTS: creates a new category of inputted name with inputted budget
     private void doNewCategory() {
         String name = doNewCategoryName();
-        Double amount = doNewCategoryAmount();
+        double amount = doNewCategoryAmount();
 
         if (tracker.doesCategoryExist(name)) {
             System.out.println("This category already exists");
@@ -298,7 +309,7 @@ public class TrackerApp {
 
     // MODIFIES: this
     // EFFECTS: Prompts user to input the new category's budget and return the inputted number
-    private Double doNewCategoryAmount() {
+    private double doNewCategoryAmount() {
         System.out.println("Input new category budget: ");
         double amount = input.nextDouble();
         return amount;
@@ -391,7 +402,7 @@ public class TrackerApp {
     // EFFECTS: Prompts user to set a specific category's budget and then changes it to the double input
     private void doSetCategoryBudget() {
         System.out.println("Input Budget Amount: ");
-        Double amount = input.nextDouble();
+        double amount = input.nextDouble();
         tracker.setCategoryBudget(specificccategoryname, amount);
         System.out.println("Set Category: " + specificccategoryname + " budget to $" + amount);
     }
@@ -400,7 +411,7 @@ public class TrackerApp {
     // EFFECTS: Prompts user to set a specific category's budget notification and then changes it to the double input
     private void doSetCategoryBudgetNotification() {
         System.out.println("Input Budget Notification Amount: ");
-        Double amount = input.nextDouble();
+        double amount = input.nextDouble();
         tracker.setCategoryBudgetNotification(specificccategoryname, amount);
         System.out.println("Set Category: " + specificccategoryname + " budget notification to $" + amount);
     }
