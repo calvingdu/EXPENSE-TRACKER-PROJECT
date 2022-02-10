@@ -104,10 +104,10 @@ public class TrackerApp {
 
     private void expenseNotifications() {
         if (tracker.notifyOverBudget()) {
-            System.out.println("Warning: You have $" + tracker.getAmountLeftInBudget() + " left in your budget");
+            System.out.println("You are over budget by $" + tracker.getAmountOverBudget());
         }
         if (tracker.notifyNearBudget()) {
-            System.out.println("You are over budget by $" + tracker.getAmountOverBudget());
+            System.out.println("Warning: You have $" + tracker.getAmountLeftInBudget() + " left in your budget");
         }
         if (category.notifyNearCategoryBudget(category)) {
             System.out.println("Warning: You have $" + category.getCategoryAmountLeftInBudget() + " left in your "
@@ -160,7 +160,7 @@ public class TrackerApp {
     // EFFECTS: shows all expenses
     private void doShowExpenses() {
         for (Expense expense : tracker.getExpenses()) {
-            System.out.println("You bought " + expense.getItemName() + " for " + expense.getMoneySpent() + " in the "
+            System.out.println("You bought " + expense.getItemName() + " for $" + expense.getMoneySpent() + " in the "
                     + expense.getCategoryName() + " category.");
         }
     }
@@ -252,7 +252,7 @@ public class TrackerApp {
 
     // EFFECTS: displays what current budget and budget notification is
     private void doShowCurrentSettings() {
-        System.out.println("Total budget is: " + tracker.getTotalBudget());
+        System.out.println("Total budget is: $" + tracker.getTotalBudget());
         System.out.println("You will be notified when you have: $" + tracker.getBudgetNotification() + " left "
                 + "in your budget");
     }

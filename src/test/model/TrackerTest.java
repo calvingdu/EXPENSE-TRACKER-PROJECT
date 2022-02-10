@@ -236,19 +236,31 @@ public class TrackerTest {
 
     @Test
     void testShowCategoryBudget() {
+        testTracker.newCategory("Groceries", 200);
         assertEquals(100, testTracker.showCategoryBudget("Clothes"));
+        assertEquals(200, testTracker.showCategoryBudget("Groceries"));
+
     }
 
     @Test
     void testShowCategoryBudgetNotification() {
         testTracker.setCategoryBudgetNotification("Clothes", 75);
+        testTracker.newCategory("Groceries", 200);
         assertEquals(75, testTracker.showCategoryBudgetNotifcation("Clothes"));
+        testTracker.setCategoryBudgetNotification("Groceries", 0);
+        assertEquals(0, testTracker.showCategoryBudgetNotifcation("Groceries"));
     }
 
     @Test
     void testShowCategoryAmountLeftBudget() {
         testTracker.addExpense("Clothes","Carrots",20);
         assertEquals(80,testTracker.showCategoryAmountLeftInBudget("Clothes"));
+    }
+
+    @Test
+    void testShowCategoryAmountLeftBudgetOverBudget() {
+        testTracker.addExpense("Clothes","Carrots",200);
+        assertEquals(-100,testTracker.showCategoryAmountLeftInBudget("Clothes"));
     }
 }
 
