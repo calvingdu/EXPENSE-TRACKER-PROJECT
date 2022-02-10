@@ -381,6 +381,7 @@ public class TrackerApp {
         System.out.println("\nSelect from:");
         System.out.println("\tb -> Set Category Budget ");
         System.out.println("\tn -> Set Category Budget Notification");
+        System.out.println("\tt -> Change Category Name");
         System.out.println("\tm -> Main Menu");
     }
 
@@ -391,6 +392,8 @@ public class TrackerApp {
             doSetCategoryBudget();
         } else if (command.equals("n")) {
             doSetCategoryBudgetNotification();
+        } else if (command.equals("t")) {
+            doSetCategoryName();
         } else if (command.equals("m")) {
             System.out.println("");
         } else {
@@ -401,7 +404,7 @@ public class TrackerApp {
     // MODIFIES: this
     // EFFECTS: Prompts user to set a specific category's budget and then changes it to the double input
     private void doSetCategoryBudget() {
-        System.out.println("Input Budget Amount: ");
+        System.out.println("Input Budget amount: ");
         double amount = input.nextDouble();
         tracker.setCategoryBudget(specificccategoryname, amount);
         System.out.println("Set Category: " + specificccategoryname + " budget to $" + amount);
@@ -410,10 +413,20 @@ public class TrackerApp {
     // MODIFIES: this
     // EFFECTS: Prompts user to set a specific category's budget notification and then changes it to the double input
     private void doSetCategoryBudgetNotification() {
-        System.out.println("Input Budget Notification Amount: ");
+        System.out.println("Input Budget Notification amount: ");
         double amount = input.nextDouble();
         tracker.setCategoryBudgetNotification(specificccategoryname, amount);
         System.out.println("Set Category: " + specificccategoryname + " budget notification to $" + amount);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Prompts user to set a specific category's name to something else
+    private void doSetCategoryName() {
+        System.out.println("Input new category name: ");
+        String name = input.next();
+        Category changedcategory = tracker.findCategory(specificccategoryname);
+        tracker.changeCategoryName(specificccategoryname, name);
+        System.out.println("Changed Category: " + specificccategoryname + " to " + name);
     }
 }
 

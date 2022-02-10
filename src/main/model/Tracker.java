@@ -131,6 +131,18 @@ public class Tracker {
         return false;
     }
 
+    // REQUIRES: original and changed length is non-zero
+    // MODIFIES: this
+    // EFFECTS: changes original category name to changed
+    public void changeCategoryName(String original, String changed) {
+        if (doesCategoryExist(original)) {
+            category = findCategory(original);
+            category.changeCategoryName(changed);
+            categoryNames.remove(original);
+            categoryNames.add(changed);
+        }
+    }
+
     // EFFECTS: Notifies user when amount left in budget is less than notification level but more than 0
     public boolean notifyNearBudget() {
         if (amountLeftInBudget <= budgetNotifcation) {

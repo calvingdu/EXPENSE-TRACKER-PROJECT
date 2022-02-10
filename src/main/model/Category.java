@@ -27,7 +27,7 @@ public class Category {
 
     // REQUIRES: name has non-zero length
     // MODIFIES: this
-    // EFFECTS: Changes Category name to name
+    // EFFECTS: Changes Category name to inputted name
     public void changeCategoryName(String name) {
         categoryName = name;
     }
@@ -45,6 +45,7 @@ public class Category {
     public void expenseInCategory(double amount) {
         amountSpent = amountSpent + amount;
         categoryAmountLeftInBudget = budget - amountSpent;
+        categoryAmountOverBudget = amountSpent - budget;
     }
 
     // REQUIRES: amount >= 0

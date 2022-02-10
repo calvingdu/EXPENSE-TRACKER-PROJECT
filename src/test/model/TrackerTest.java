@@ -122,6 +122,19 @@ public class TrackerTest {
     }
 
     @Test
+    void testFindCategoryNoTExist() {
+        assertNull(testTracker.findCategory("NotReal"));
+    }
+
+
+    @Test
+    void testChangeCategoryName() {
+        testTracker.changeCategoryName("Clothes", "Groceries");
+        assertTrue(testTracker.doesCategoryExist("Groceries"));
+        assertFalse(testTracker.doesCategoryExist("Clothes"));
+    }
+
+    @Test
     void testRemoveWithExpense() {
         testTracker.addExpense("Clothes", "Shirt", 10);
         testTracker.removeCategory("Clothes");
@@ -161,6 +174,9 @@ public class TrackerTest {
         assertEquals("Clothes", testTracker.getExpenses().get(0).getCategoryName());
         assertEquals("Shirt", testTracker.getExpenses().get(0).getItemName());
         assertEquals(100, testTracker.getExpenses().get(0).getMoneySpent());
+        assertEquals(100, testTracker.getTotalSpent());
+        assertEquals(1100, testTracker.getAmountLeftInBudget());
+        assertEquals(0, testTracker.getAmountOverBudget());
     }
 
     @Test
@@ -232,6 +248,9 @@ public class TrackerTest {
         testTracker.addExpense("Clothes", "Shirt", 1201);
         assertFalse(testTracker.notifyNearBudget());
         assertTrue(testTracker.notifyOverBudget());
+        assertEquals(1201, testTracker.getTotalSpent());
+        assertEquals(-1, testTracker.getAmountLeftInBudget());
+        assertEquals(1, testTracker.getAmountOverBudget());
     }
 
     @Test
