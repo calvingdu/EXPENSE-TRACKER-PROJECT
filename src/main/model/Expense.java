@@ -1,5 +1,6 @@
 package model;
 
+// Represents a single expense
 public class Expense {
     private String categoryName;
     private String itemName;

@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+// Represents the entire tracker, that keeps track of budgets, expenses, categories, ect
 public class Tracker {
     private ArrayList<Expense> expenses;
     private ArrayList<Category> categories;

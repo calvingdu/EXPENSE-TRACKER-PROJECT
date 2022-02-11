@@ -1,5 +1,6 @@
 package model;
 
+// Represents a category (that a user will create/add) of the expense
 public class Category {
     private double budget;
     private double amountSpent;
