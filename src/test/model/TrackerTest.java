@@ -122,8 +122,9 @@ public class TrackerTest {
     }
 
     @Test
-    void testFindCategory() {
-        assertEquals(testTracker.findCategory("Clothes"), testTracker.findCategory("Clothes"));
+    void testFindCategoryExistsInNamesButNotInCategories() {
+        testTracker.getCategoryNames().add("NotReal");
+        assertNull(testTracker.findCategory("NotReal"));
     }
 
     @Test

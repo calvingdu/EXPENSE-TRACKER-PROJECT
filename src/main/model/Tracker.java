@@ -96,6 +96,7 @@ public class Tracker {
 
 
     // REQUIRES: categoryName length is non-zero
+    // EFFECTS: returns true or false depending on if the category exists
     public boolean doesCategoryExist(String categoryName) {
         if (categoryNames.contains(categoryName)) {
             return true;
@@ -104,7 +105,7 @@ public class Tracker {
         }
     }
 
-    // REQUIRES: name length is non,zero
+    // REQUIRES: name length is non-zero
     // EFFECTS: Returns category in list of categories given its name
     public Category findCategory(String name) {
         if (doesCategoryExist(name)) {
@@ -113,6 +114,7 @@ public class Tracker {
                     return category;
                 }
             }
+            return null;
         }
         return null;
     }
