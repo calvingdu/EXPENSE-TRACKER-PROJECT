@@ -165,7 +165,7 @@ public class TrackerApp {
     private void doShowExpenses() {
         for (Expense expense : tracker.getExpenses()) {
             System.out.println("You bought " + expense.getItemName() + " for $" + expense.getMoneySpent() + " in the "
-                    + expense.getCategoryName() + " category.");
+                    + expense.getCategoryName() + " category");
         }
     }
 
@@ -180,11 +180,11 @@ public class TrackerApp {
                 if (expense.getCategoryName().equals(categoryName)) {
                     System.out.println("You bought " + expense.getItemName()
                             + " for $" + expense.getMoneySpent() + " in the "
-                            + expense.getCategoryName() + " category.");
+                            + expense.getCategoryName() + " category");
                 }
             }
         } else {
-            System.out.println("This category does not exist.");
+            System.out.println("This category does not exist");
         }
     }
 
@@ -326,7 +326,7 @@ public class TrackerApp {
         System.out.println("Input category to remove");
         String name = input.next();
         if (tracker.isCategoryUsed(name)) {
-            System.out.println("This category is being used and cannot be removed.");
+            System.out.println("This category is being used and cannot be removed");
         } else {
             tracker.removeCategory(name);
         }
@@ -357,7 +357,7 @@ public class TrackerApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: Displays categories that exist and get's user's selection of
+    // EFFECTS: Displays categories that exist and gets user's selection of
     // category of inputted name
     private void doSelectCategoryForOptions() {
         doShowAllCategories();
