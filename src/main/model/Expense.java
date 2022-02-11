@@ -5,12 +5,19 @@ public class Expense {
     private String itemName;
     private double moneySpent;
 
-    // REQUIRES: category exists, item has non-zero length, amount >= 0
+    // REQUIRES: name and item has non-zero length, amount >= 0
     // EFFECTS: creates category with a name and a budget
     public Expense(String name, String item, double amount) {
         categoryName = name;
         itemName = item;
         moneySpent = amount;
+    }
+
+    // REQUIRES: string name has non-zero length
+    // MODIFIES: this
+    // EFFECTS: changes expense's category to a new name
+    public void changeCategoryName(String name) {
+        categoryName = name;
     }
 
     public String getCategoryName() {

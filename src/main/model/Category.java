@@ -4,11 +4,11 @@ public class Category {
     private double budget;
     private double amountSpent;
     private String categoryName;
-    private double categoryBudgetNotifcation;
+    private double categoryBudgetNotification;
     private double categoryAmountLeftInBudget;
     private double categoryAmountOverBudget;
 
-    // REQUIRES: name has non-zero length
+    // REQUIRES: name has non-zero length, amount >= 0
     // EFFECTS: creates category with a name and a budget
     public Category(String name, double amount) {
         categoryName = name;
@@ -34,9 +34,9 @@ public class Category {
 
     // REQUIRES: amount >= 0
     // MODIFIES: this
-    // EFFECTS: Changes budgetNotifcation to amount
-    public void setCategoryBudgetNotifcation(double amount) {
-        categoryBudgetNotifcation = amount;
+    // EFFECTS: Changes budget notification to amount
+    public void setCategoryBudgetNotification(double amount) {
+        categoryBudgetNotification = amount;
     }
 
     // REQUIRES: amount >= 0
@@ -50,9 +50,9 @@ public class Category {
 
     // REQUIRES: amount >= 0
     // MODIFIES: this
-    // EFFECTS: Notifies user if amountSpent < budgetCutoff;
+    // EFFECTS: return true if amountSpent < budgetCutoff, otherwise false
     public boolean notifyNearCategoryBudget(Category category) {
-        if (categoryAmountLeftInBudget <= categoryBudgetNotifcation) {
+        if (categoryAmountLeftInBudget <= categoryBudgetNotification) {
             if (categoryAmountLeftInBudget < 0) {
                 return false;
             }
@@ -64,7 +64,7 @@ public class Category {
 
     // REQUIRES: amount >= 0
     // MODIFIES: this
-    // EFFECTS: Notifies user if amountSpent > budget
+    // EFFECTS: return true if amountSpent > budget, otherwise false
     public boolean notifyOverCategoryBudget(Category category) {
         if (amountSpent > budget) {
             categoryAmountOverBudget = amountSpent - budget;
@@ -83,7 +83,7 @@ public class Category {
     }
 
     public double getCategoryBudgetNotification() {
-        return categoryBudgetNotifcation;
+        return categoryBudgetNotification;
     }
 
     public double getCategoryAmountLeftInBudget() {

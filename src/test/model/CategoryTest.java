@@ -11,7 +11,7 @@ public class CategoryTest {
     @BeforeEach
     void runBefore() {
         testCategory = new Category("Groceries", 500);
-        testCategory.setCategoryBudgetNotifcation(50);
+        testCategory.setCategoryBudgetNotification(50);
     }
 
     @Test
@@ -26,9 +26,9 @@ public class CategoryTest {
 
     @Test
     void testSetBudgetNotification() {
-        testCategory.setCategoryBudgetNotifcation(50);
+        testCategory.setCategoryBudgetNotification(50);
         assertEquals(50, testCategory.getCategoryBudgetNotification());
-        testCategory.setCategoryBudgetNotifcation(75);
+        testCategory.setCategoryBudgetNotification(75);
         assertEquals(75, testCategory.getCategoryBudgetNotification());
     }
 
@@ -112,5 +112,8 @@ public class CategoryTest {
     @Test
     void testGetCategoryAmountOverBudget() {
         assertEquals(0,testCategory.getCategoryAmountOverBudget());
+        testCategory.expenseInCategory(600);
+        assertEquals(100,testCategory.getCategoryAmountOverBudget());
     }
+
 }

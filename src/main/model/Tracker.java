@@ -9,7 +9,7 @@ public class Tracker {
     private HashSet<String> categoryNames;
     private double totalSpent;
     private double totalBudget;
-    private double budgetNotifcation;
+    private double budgetNotification;
     private double amountLeftInBudget;
     private double amountOverBudget;
     private Category category;
@@ -34,11 +34,11 @@ public class Tracker {
     // MODIFIES: this
     // EFFECTS: set the amount of $ the user will be notified at when they have that amount left
     // in their budget
-    public void setBudgetNotifcation(double amount) {
-        budgetNotifcation = amount;
+    public void setBudgetNotification(double amount) {
+        budgetNotification = amount;
     }
 
-    // REQUIRES: Category exists, item string length is non-zero, amount >= 0
+    // REQUIRES: name and item string length is non-zero, amount >= 0
     // MODIFIES: this
     // EFFECTS: adds an expense to expenses and updates totalSpent as well as amountLeftInBudget
     // if the expense causes the user to reach near or over budget, they will be notified
@@ -81,6 +81,7 @@ public class Tracker {
     }
 
     // REQUIRES: name length is non-zero and amount >= 0
+    // MODIFIES: this
     // EFFECTS: Sets a specific category's budget
     public void setCategoryBudget(String name, double amount) {
         category = findCategory(name);
@@ -88,25 +89,26 @@ public class Tracker {
     }
 
     // REQUIRES: name length is non-zero and amount >= 0
+    // MODIFIES: this
     // EFFECTS: Sets a specific category's budget notification
     public void setCategoryBudgetNotification(String name, double amount) {
         category = findCategory(name);
-        category.setCategoryBudgetNotifcation(amount);
+        category.setCategoryBudgetNotification(amount);
     }
 
 
     // REQUIRES: categoryName length is non-zero
-    // EFFECTS: returns true or false depending on if the category exists
+    // EFFECTS: returns true if category exists, false otherwise
     public boolean doesCategoryExist(String categoryName) {
         if (categoryNames.contains(categoryName)) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     // REQUIRES: name length is non-zero
-    // EFFECTS: Returns category in list of categories given its name
+    // EFFECTS: Returns category in list of categories given its name if it exists,
+    // otherwise return null
     public Category findCategory(String name) {
         if (doesCategoryExist(name)) {
             for (Category category : categories) {
@@ -137,19 +139,23 @@ public class Tracker {
 
     // REQUIRES: original and changed length is non-zero
     // MODIFIES: this
-    // EFFECTS: changes original category name to changed
+    // EFFECTS: changes original category name to changed named, taking making the lists of category and
+    // category name line up and also every expense associated with it
     public void changeCategoryName(String original, String changed) {
         if (doesCategoryExist(original)) {
             category = findCategory(original);
             category.changeCategoryName(changed);
             categoryNames.remove(original);
             categoryNames.add(changed);
+            for (Expense expense : expenses) {
+                expense.changeCategoryName(changed);
+            }
         }
     }
 
     // EFFECTS: Notifies user when amount left in budget is less than notification level but more than 0
     public boolean notifyNearBudget() {
-        if (amountLeftInBudget <= budgetNotifcation) {
+        if (amountLeftInBudget <= budgetNotification) {
             if (amountLeftInBudget < 0) {
                 return false;
             }
@@ -170,7 +176,6 @@ public class Tracker {
     }
 
     // REQUIRES: name has non-zero length
-    // MODIFIES: this
     // EFFECTS: returns amount left in budget in the category of name
     public double showCategoryAmountLeftInBudget(String name) {
         Category category = findCategory(name);
@@ -180,7 +185,6 @@ public class Tracker {
     }
 
     // REQUIRES: name has non-zero length
-    // MODIFIES: this
     // EFFECTS: returns budget of category matching input
     public double showCategoryBudget(String name) {
         Category category = findCategory(name);
@@ -189,17 +193,16 @@ public class Tracker {
     }
 
     // REQUIRES: name has non-zero length
-    // MODIFIES: this
     // EFFECTS: returns budget notification of category matching input
-    public double showCategoryBudgetNotifcation(String name) {
+    public double showCategoryBudgetNotification(String name) {
         Category category = findCategory(name);
-        double notifcation = category.getCategoryBudgetNotification();
-        return notifcation;
+        double notification = category.getCategoryBudgetNotification();
+        return notification;
     }
 
 
     public double getBudgetNotification() {
-        return budgetNotifcation;
+        return budgetNotification;
     }
 
     public double getTotalBudget() {

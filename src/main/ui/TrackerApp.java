@@ -67,6 +67,7 @@ public class TrackerApp {
         System.out.println("Let's do some setup!");
         doSetTotalBudget();
         doSetBudgetNotification();
+        System.out.println("We'll start with one category but be sure to add more for efficient tracking!");
         doNewCategory();
     }
 
@@ -102,6 +103,8 @@ public class TrackerApp {
         }
     }
 
+    // EFFECTS: if user is over budget, near budget in either the total or category
+    // they will be notified, otherwise, nothing happens
     private void expenseNotifications() {
         if (tracker.notifyOverBudget()) {
             System.out.println("You are over budget by $" + tracker.getAmountOverBudget());
@@ -121,7 +124,8 @@ public class TrackerApp {
 
 
     // MODIFIES: this
-    // EFFECTS: Returns string of category name if a category with the inputted name exists
+    // EFFECTS: Returns string of category name if a category with the inputted name if it exists
+    // otherwise return an empty string
     private String doSelectCategoryName() {
         doShowAllCategories();
         String categoryName = "";
@@ -247,7 +251,7 @@ public class TrackerApp {
     private void doSetBudgetNotification() {
         System.out.println("Input amount to be notified at: ");
         double amount = input.nextDouble();
-        tracker.setBudgetNotifcation(amount);
+        tracker.setBudgetNotification(amount);
     }
 
     // EFFECTS: displays what current budget and budget notification is
@@ -286,7 +290,7 @@ public class TrackerApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: creates a new category of inputted name with inputted budget
+    // EFFECTS: Prompts user to create a new category of inputted name with inputted budget then does so
     private void doNewCategory() {
         String name = doNewCategoryName();
         double amount = doNewCategoryAmount();
@@ -353,7 +357,8 @@ public class TrackerApp {
     }
 
     // MODIFIES: this
-    // EFFECTS: Selects category of inputted name
+    // EFFECTS: Displays categories that exist and get's user's selection of
+    // category of inputted name
     private void doSelectCategoryForOptions() {
         doShowAllCategories();
         System.out.println("Select category: ");
@@ -362,8 +367,8 @@ public class TrackerApp {
         doSpecificCategoryOptions();
     }
 
-    // MODIFIES:
-    // EFFECTS:
+    // MODIFIES: this
+    // EFFECTS: takes in user's input
     private void doSpecificCategoryOptions() {
         String command = null;
         displayScoMenu();
@@ -372,12 +377,13 @@ public class TrackerApp {
         processScoCommand(command);
     }
 
-    // EFFECTS: displays Specific Category Options Menu
+    // EFFECTS: displays Specific Category Options Menu and also the category's current budget
+    // and budget notification
     private void displayScoMenu() {
         System.out.println("Category: " + specificccategoryname + " has budget of $"
                 + tracker.showCategoryBudget(specificccategoryname));
         System.out.println("Category: " + specificccategoryname + " has budget notification of $"
-                + tracker.showCategoryBudgetNotifcation(specificccategoryname));
+                + tracker.showCategoryBudgetNotification(specificccategoryname));
         System.out.println("\nSelect from:");
         System.out.println("\tb -> Set Category Budget ");
         System.out.println("\tn -> Set Category Budget Notification");
@@ -424,7 +430,6 @@ public class TrackerApp {
     private void doSetCategoryName() {
         System.out.println("Input new category name: ");
         String name = input.next();
-        Category changedcategory = tracker.findCategory(specificccategoryname);
         tracker.changeCategoryName(specificccategoryname, name);
         System.out.println("Changed Category: " + specificccategoryname + " to " + name);
     }
