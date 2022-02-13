@@ -166,6 +166,18 @@ public class TrackerTest {
     }
 
     @Test
+    void testChangeCategoryNameWithExpensesInDifferentCategories() {
+        testTracker.newCategory("Test",100);
+        testTracker.addExpense("Clothes","Shirt",100);
+        testTracker.addExpense("Test","Test",100);
+        testTracker.changeCategoryName("Clothes", "Groceries");
+        assertTrue(testTracker.doesCategoryExist("Groceries"));
+        assertFalse(testTracker.doesCategoryExist("Clothes"));
+        assertEquals("Groceries",testTracker.getExpenses().get(0).getCategoryName());
+        assertEquals("Test",testTracker.getExpenses().get(1).getCategoryName());
+    }
+
+    @Test
     void testRemoveWithExpense() {
         testTracker.addExpense("Clothes", "Shirt", 10);
         testTracker.removeCategory("Clothes");

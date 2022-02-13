@@ -149,7 +149,9 @@ public class Tracker {
             categoryNames.remove(original);
             categoryNames.add(changed);
             for (Expense expense : expenses) {
-                expense.changeCategoryName(changed);
+                if (expense.getCategoryName().equals(original)) {
+                    expense.changeCategoryName(changed);
+                }
             }
         }
     }
