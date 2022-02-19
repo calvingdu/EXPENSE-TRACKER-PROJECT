@@ -116,4 +116,21 @@ public class CategoryTest {
         assertEquals(100,testCategory.getCategoryAmountOverBudget());
     }
 
+    @Test
+    void testSetAmountOverBudget() {
+        testCategory.setAmountOverBudget(100);
+        assertEquals(100,testCategory.getCategoryAmountOverBudget());
+    }
+
+    @Test
+    void testSetAmountLeftInBudget() {
+        testCategory.setAmountLeftInBudget(200);
+        assertEquals(200,testCategory.getCategoryAmountLeftInBudget());
+    }
+
+    @Test
+    void testSetSpent() {
+        testCategory.setCategorySpent(100);
+        assertEquals(100, testCategory.getCategoryAmountSpent());
+    }
 }

@@ -1,21 +1,36 @@
 package ui;
 
+
+
+
 import model.Category;
 import model.Expense;
 import model.Tracker;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
+// Expense tracker and budget tracking application
 public class TrackerApp {
     private Tracker tracker;
     private Scanner input;
     private String specificccategoryname;
     private String categoryname;
     private Category category;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    private static final String JSON_STORE = "./data/json";
+
+    // private static final String JSON_STORE = "./data/.json";
 
     //EFFECTS: Runs the Tracker App
     public TrackerApp() {
         runTracker();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
     }
 
     // MODIFIES: this
@@ -39,6 +54,7 @@ public class TrackerApp {
         }
         System.out.println("\nGoodbye!");
     }
+    // init and runTracker have a lot of inspiration from the TellerApp used as an example
 
     // MODIFIES: this
     // EFFECTS: processes user command
@@ -53,6 +69,10 @@ public class TrackerApp {
             doShowCategoryExpenses();
         } else if (command.equals("o")) {
             doOptions();
+        } else if (command.equals("save")) {
+            saveTracker();
+        } else if (command.equals("load")) {
+            loadTracker();
         } else {
             System.out.println("Selection not valid...");
         }
@@ -79,6 +99,8 @@ public class TrackerApp {
         System.out.println("\te -> Show All Expenses");
         System.out.println("\tc -> Show Expenses in Category");
         System.out.println("\to -> Options");
+        System.out.println("\tsave -> Save Tracker File");
+        System.out.println("\tload -> Load Tracker File");
         System.out.println("\tq -> quit");
     }
 
@@ -99,7 +121,7 @@ public class TrackerApp {
 
             expenseNotifications();
         } else {
-            System.out.println("This category does not exist");
+            doMakeNewCategoryFromExpense();
         }
     }
 
@@ -120,6 +142,22 @@ public class TrackerApp {
             System.out.println("You are over budget by $" + category.getCategoryAmountOverBudget() + " in the "
                     + categoryname + " category");
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Accepts user input for a yes or no question to make a category or not
+    private void doMakeNewCategoryFromExpense() {
+        System.out.println("This category does not exist, do you want to make a new one?");
+        displayYesOrNo();
+        String command = null;
+        command = input.next();
+        command = command.toLowerCase();
+        if (command.equals("y")) {
+            doNewCategory();
+        } else {
+            System.out.println("Returning back to main menu");
+        }
+
     }
 
 
@@ -325,11 +363,17 @@ public class TrackerApp {
         doShowAllCategories();
         System.out.println("Input category to remove");
         String name = input.next();
-        if (tracker.isCategoryUsed(name)) {
-            System.out.println("This category is being used and cannot be removed");
+        if (tracker.doesCategoryExist(name)) {
+            if (tracker.isCategoryUsed(name)) {
+                System.out.println("This category is being used and cannot be removed");
+            } else {
+                tracker.removeCategory(name);
+                System.out.println("Successfully removed category: " + name);
+            }
         } else {
-            tracker.removeCategory(name);
+            System.out.println("This category does not exist");
         }
+
     }
 
     // EFFECTS: Shows all categories that have been created
@@ -433,6 +477,38 @@ public class TrackerApp {
         tracker.changeCategoryName(specificccategoryname, name);
         System.out.println("Changed Category: " + specificccategoryname + " to " + name);
     }
+
+    // EFFECTS: displays menu options to user
+    private void displayYesOrNo() {
+        System.out.println("\nSelect from:");
+        System.out.println("\ty -> Yes");
+        System.out.println("\tn -> No");
+    }
+
+    // EFFECTS: saves the tracker from file
+    private void saveTracker() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(tracker);
+            jsonWriter.close();
+            System.out.println("Saved Tracker to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads Tracker from file
+    private void loadTracker() {
+        try {
+            tracker = jsonReader.read();
+            System.out.println("Loaded tracker from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+
 }
 
 

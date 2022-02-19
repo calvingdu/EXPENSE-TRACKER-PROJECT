@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // Represents a single expense
-public class Expense {
+public class Expense implements Writable {
     private String categoryName;
     private String itemName;
     private double moneySpent;
@@ -32,4 +35,15 @@ public class Expense {
     public double getMoneySpent() {
         return moneySpent;
     }
+
+    // EFFECTS: creates jsonObject of expense
+    public JSONObject toJson() {
+        JSONObject jsonExpense = new JSONObject();
+        jsonExpense.put("category", categoryName);
+        jsonExpense.put("item", itemName);
+        jsonExpense.put("amount", moneySpent);
+        return jsonExpense;
+    }
+
+
 }

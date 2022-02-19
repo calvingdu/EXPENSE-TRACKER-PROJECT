@@ -29,3 +29,6 @@ I have spent in total, and in each category
 - As a user, I want to be able to customize my categories, with titles that I choose, being able to remove, add, and
 change the name of
 - As a user, I want to be able to be shown all of my expenses and my expenses in each category
+
+- As a user, I want to be able to save my categories and my expenses  
+- As a user, I want to be able to be able to load my previously created categories and my expenses  

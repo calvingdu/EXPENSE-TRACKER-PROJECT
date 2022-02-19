@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // Represents a category (that a user will create/add) of the expense
-public class Category {
+public class Category implements Writable {
     private double budget;
     private double amountSpent;
     private String categoryName;
@@ -97,5 +100,45 @@ public class Category {
 
     public double getCategoryAmountOverBudget() {
         return categoryAmountOverBudget;
+    }
+
+    // REQUIRES: amount >= 0
+    // MODIFIES: this
+    // EFFECTS: Sets total spent in category
+    public void setCategorySpent(double amount) {
+        amountSpent = amount;
+    }
+
+    // REQUIRES: amount >= 0
+    // MODIFIES: this
+    // EFFECTS: sets the amount of money spent over budget in category
+    public void setAmountOverBudget(double amount) {
+        categoryAmountOverBudget = amount;
+    }
+
+    // REQUIRES: amount >= 0
+    // MODIFIES: this
+    // EFFECTS: Sets amount left in budget in category
+    public void setAmountLeftInBudget(double amount) {
+        categoryAmountLeftInBudget = amount;
+    }
+
+    // EFFECTS: creates jsonObject of category
+    public JSONObject toJson() {
+        JSONObject jsonCategory = new JSONObject();
+        jsonCategory.put("category", categoryName);
+        jsonCategory.put("budget", budget);
+        jsonCategory.put("spent", amountSpent);
+        jsonCategory.put("notification", categoryBudgetNotification);
+        jsonCategory.put("left", categoryAmountLeftInBudget);
+        jsonCategory.put("over", categoryAmountOverBudget);
+        return jsonCategory;
+    }
+
+    // EFFECTS: creates jsonObject of categoryName
+    public JSONObject toJsonCategoryName() {
+        JSONObject jsonCategoryName = new JSONObject();
+        jsonCategoryName.put("name", categoryName);
+        return jsonCategoryName;
     }
 }

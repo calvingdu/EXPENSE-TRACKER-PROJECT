@@ -1,0 +1,45 @@
+{
+  "expenses": [
+    {
+      "category": "groceries",
+      "item:": "carrots",
+      "amount": "100"
+    },
+    {
+      "category": "food",
+      "item:": "burger",
+      "amount": "50"
+    }
+  ],
+  "categories": [
+    {
+      "category": "groceries",
+      "budget": "300",
+      "notification": "100",
+      "spent": "100",
+      "left": "200",
+      "over": "0"
+    },
+    {
+      "category": "food",
+      "budget": "50",
+      "notification": "10",
+      "spent": "75",
+      "left": "-25",
+      "over": "25"
+    }
+  ],
+  "category names": [
+    {
+      "name": "groceries"
+    },
+    {
+      "name": "food"
+    }
+  ],
+  "budget": "1000",
+  "notification": "100",
+  "spent": "175",
+  "left": "825",
+  "over": "0"
+}

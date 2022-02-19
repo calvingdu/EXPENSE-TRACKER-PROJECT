@@ -325,6 +325,24 @@ public class TrackerTest {
         assertEquals(-100,testTracker.showCategoryAmountLeftInBudget("Clothes"));
         assertEquals(100, testTracker.findCategory("Clothes").getCategoryAmountOverBudget());
     }
+
+    @Test
+    void testSetAmountOverBudget() {
+        testTracker.setAmountOverBudget(100);
+        assertEquals(100,testTracker.getAmountOverBudget());
+    }
+
+    @Test
+    void testSetAmountLeftInBudget() {
+        testTracker.setAmountLeftInBudget(200);
+        assertEquals(200,testTracker.getAmountLeftInBudget());
+    }
+
+    @Test
+    void testSetSpent() {
+        testTracker.setTotalSpent(100);
+        assertEquals(100,testTracker.getTotalSpent());
+    }
 }
 
 

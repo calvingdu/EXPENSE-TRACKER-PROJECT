@@ -1,10 +1,14 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
 // Represents the entire tracker, that keeps track of budgets, expenses, categories, ect
-public class Tracker {
+public class Tracker implements Writable {
     private ArrayList<Expense> expenses;
     private ArrayList<Category> categories;
     private HashSet<String> categoryNames;
@@ -234,5 +238,89 @@ public class Tracker {
 
     public HashSet<String> getCategoryNames() {
         return categoryNames;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds expense to list of expenses
+    public void parseExpense(Expense expense) {
+        expenses.add(expense);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds category to list of categories
+    public void parseCategory(Category category) {
+        categories.add(category);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds category name to list of category names
+    public void parseCategoryName(String name) {
+        categoryNames.add(name);
+    }
+
+    // REQUIRES: amount >= 0
+    // MODIFIES: this
+    // EFFECTS: Sets total spent in tracker
+    public void setTotalSpent(double amount) {
+        totalSpent = amount;
+    }
+
+    // REQUIRES: amount >= 0
+    // MODIFIES: this
+    // EFFECTS: sets the amount of money spent over budget
+    public void setAmountOverBudget(double amount) {
+        amountOverBudget = amount;
+    }
+
+    // REQUIRES: amount >= 0
+    // MODIFIES: this
+    // EFFECTS: Sets amount left in budget
+    public void setAmountLeftInBudget(double amount) {
+        amountLeftInBudget = amount;
+    }
+
+    // EFFECTS: returns tracker as a JSON object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("expenses", expensesToJson());
+        json.put("categories", categoriesToJson());
+        json.put("category names", categoryNamesToJson());
+        json.put("budget", totalBudget);
+        json.put("notification", budgetNotification);
+        json.put("spent", totalSpent);
+        json.put("left", amountLeftInBudget);
+        json.put("over", amountOverBudget);
+        return json;
+    }
+
+    // EFFECTS: returns expenses in tracker as a JSON array
+    private JSONArray expensesToJson() {
+        JSONArray jsonArrayExpenses = new JSONArray();
+
+        for (Expense e : expenses) {
+            jsonArrayExpenses.put(e.toJson());
+        }
+
+        return jsonArrayExpenses;
+    }
+
+    // EFFECTS: returns categories in tracker as a JSON array
+    private JSONArray categoriesToJson() {
+        JSONArray jsonArrayCategories = new JSONArray();
+
+        for (Category c : categories) {
+            jsonArrayCategories.put(c.toJson());
+        }
+        return jsonArrayCategories;
+    }
+
+    // EFFECTS: returns category Names in tracker as a JSON array
+    private JSONArray categoryNamesToJson() {
+        JSONArray jsonArrayCategoryNames = new JSONArray();
+
+        for (Category c : categories) {
+            jsonArrayCategoryNames.put(c.toJsonCategoryName());
+        }
+        return jsonArrayCategoryNames;
     }
 }
