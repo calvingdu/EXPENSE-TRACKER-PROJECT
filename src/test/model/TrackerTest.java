@@ -26,7 +26,23 @@ public class TrackerTest {
     }
 
     @Test
-    void testSetBudgetNotificaiton() {
+    void testSetTotalBudgetAfterExpenses() {
+        testTracker.addExpense("Clothes","Shirt",50);
+        assertEquals(0,testTracker.getAmountOverBudget());
+        testTracker.setTotalBudget(4000);
+        assertEquals(4000, testTracker.getTotalBudget());
+        assertEquals(0,testTracker.getAmountOverBudget());
+        assertEquals(0,testTracker.findCategory("Clothes").getCategoryAmountOverBudget());
+        testTracker.setTotalBudget(0);
+        testTracker.setCategoryBudget("Clothes",0);
+        assertEquals(0, testTracker.getTotalBudget());
+        assertEquals(50,testTracker.getAmountOverBudget());
+        assertEquals(50,testTracker.findCategory("Clothes").getCategoryAmountOverBudget());
+
+    }
+
+    @Test
+    void testSetBudgetNotification() {
         testTracker.setBudgetNotification(500);
         assertEquals(500, testTracker.getBudgetNotification());
 

@@ -59,7 +59,7 @@ public class Tracker implements Writable {
             totalSpent = totalSpent + amount;
             amountLeftInBudget = totalBudget - totalSpent;
             amountOverBudget = totalSpent - totalBudget;
-            if (amountOverBudget <= 0) {
+            if (amountOverBudget < 0) {
                 amountOverBudget = 0;
             }
             notifyNearBudget();
