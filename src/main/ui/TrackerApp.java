@@ -22,15 +22,15 @@ public class TrackerApp {
     private Category category;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
-    private static final String JSON_STORE = "./data/json";
+    private static final String JSON_STORE = "./data/tracker.json";
 
-    // private static final String JSON_STORE = "./data/.json";
+    // private static final String JSON_STORE = "./data/.tracker.json";
 
     //EFFECTS: Runs the Tracker App
     public TrackerApp() {
-        runTracker();
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
+        runTracker();
     }
 
     // MODIFIES: this
@@ -84,11 +84,17 @@ public class TrackerApp {
         tracker = new Tracker();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
-        System.out.println("Let's do some setup!");
-        doSetTotalBudget();
-        doSetBudgetNotification();
-        System.out.println("We'll start with one category but be sure to add more for efficient tracking!");
-        doNewCategory();
+        System.out.println("Upload saved file?");
+        displayYesOrNo();
+        if (acceptLoadFile()) {
+            loadTracker();
+        } else {
+            System.out.println("Let's do some setup!");
+            doSetTotalBudget();
+            doSetBudgetNotification();
+            System.out.println("We'll start with one category but be sure to add more for efficient tracking!");
+            doNewCategory();
+        }
     }
 
     // EFFECTS: displays menu options to user
@@ -508,8 +514,24 @@ public class TrackerApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: asks user if they want to load file, if so loads file, if not then don't load file
+    public boolean acceptLoadFile() {
+        String command = null;
+        command = input.next();
+        command = command.toLowerCase();
 
+        if (command.equals("y")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
+
+
+
+
 
 
 

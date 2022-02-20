@@ -25,8 +25,13 @@ public class Category implements Writable {
     // MODIFIES: this
     // EFFECTS: Changes budget to amount
     public void setBudget(double amount) {
-        categoryAmountLeftInBudget = categoryAmountLeftInBudget + (amount - budget);
         budget = amount;
+        categoryAmountLeftInBudget = budget - amountSpent;
+        categoryAmountOverBudget = amountSpent - budget;
+        if (categoryAmountOverBudget <= 0) {
+            categoryAmountOverBudget = 0;
+        }
+
     }
 
     // REQUIRES: name has non-zero length
@@ -50,6 +55,9 @@ public class Category implements Writable {
         amountSpent = amountSpent + amount;
         categoryAmountLeftInBudget = budget - amountSpent;
         categoryAmountOverBudget = amountSpent - budget;
+        if (categoryAmountOverBudget <= 0) {
+            categoryAmountOverBudget = 0;
+        }
     }
 
     // REQUIRES: amount >= 0

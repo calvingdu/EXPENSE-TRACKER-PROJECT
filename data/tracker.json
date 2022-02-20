@@ -1,0 +1,34 @@
+{
+    "over": 0,
+    "notification": 100,
+    "left": 950,
+    "spent": 50,
+    "categories": [
+        {
+            "over": 0,
+            "notification": 0,
+            "left": 100,
+            "spent": 0,
+            "category": "groceries",
+            "budget": 100
+        },
+        {
+            "over": 0,
+            "notification": 0,
+            "left": 950,
+            "spent": 50,
+            "category": "food",
+            "budget": 1000
+        }
+    ],
+    "category names": [
+        {"name": "groceries"},
+        {"name": "food"}
+    ],
+    "expenses": [{
+        "item": "50",
+        "amount": 50,
+        "category": "food"
+    }],
+    "budget": 1000
+}

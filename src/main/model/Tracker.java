@@ -33,6 +33,10 @@ public class Tracker implements Writable {
     public void setTotalBudget(double amount) {
         totalBudget = amount;
         amountLeftInBudget = totalBudget - totalSpent;
+        amountOverBudget = totalSpent - totalBudget;
+        if (amountOverBudget <= 0) {
+            amountOverBudget = 0;
+        }
     }
 
     // REQUIRES: amount >= 0
@@ -54,6 +58,10 @@ public class Tracker implements Writable {
             expenses.add(expense);
             totalSpent = totalSpent + amount;
             amountLeftInBudget = totalBudget - totalSpent;
+            amountOverBudget = totalSpent - totalBudget;
+            if (amountOverBudget <= 0) {
+                amountOverBudget = 0;
+            }
             notifyNearBudget();
             notifyOverBudget();
             category.expenseInCategory(amount);

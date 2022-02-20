@@ -2,13 +2,13 @@
   "expenses": [
     {
       "category": "groceries",
-      "item:": "carrots",
+      "item": "carrots",
       "amount": "100"
     },
     {
       "category": "food",
-      "item:": "burger",
-      "amount": "50"
+      "item": "burger",
+      "amount": "75"
     }
   ],
   "categories": [
