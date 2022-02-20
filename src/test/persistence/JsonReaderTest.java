@@ -23,7 +23,7 @@ public class JsonReaderTest extends JsonTest {
 
     @Test
     void testReaderEmptyTracker() {
-        JsonReader reader = new JsonReader("./data/testReaderEmpty.tracker.json");
+        JsonReader reader = new JsonReader("./data/testReaderEmpty.json");
         try {
             Tracker tr = reader.read();
             assertEquals(0, tr.getCategories().size());
@@ -34,7 +34,6 @@ public class JsonReaderTest extends JsonTest {
             assertEquals(0, tr.getTotalSpent());
             assertEquals(0, tr.getAmountLeftInBudget());
             assertEquals(0, tr.getAmountOverBudget());
-
         } catch (IOException e) {
             fail("Should read file");
         }
@@ -42,7 +41,7 @@ public class JsonReaderTest extends JsonTest {
 
     @Test
     void testReaderGeneralTracker() {
-        JsonReader reader = new JsonReader("./data/testReaderGeneral.tracker.json");
+        JsonReader reader = new JsonReader("./data/testReaderGeneral.json");
         try {
             Tracker tr = reader.read();
             checkTrackerGeneral(tr);
