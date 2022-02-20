@@ -7,6 +7,7 @@ import model.Tracker;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+// Lots of code inspired by WorkRoom Workshop
 public class JsonTest {
 
     // EFFECTS: checks tracker in specifics to a pre-made tracker

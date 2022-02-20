@@ -122,6 +122,7 @@ public class CategoryTest {
         assertEquals(100,testCategory.getCategoryAmountOverBudget());
     }
 
+
     @Test
     void testSetAmountLeftInBudget() {
         testCategory.setAmountLeftInBudget(200);

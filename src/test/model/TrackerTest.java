@@ -220,6 +220,20 @@ public class TrackerTest {
         assertEquals(100, testTracker.getTotalSpent());
         assertEquals(1100, testTracker.getAmountLeftInBudget());
         assertEquals(0, testTracker.getAmountOverBudget());
+        assertEquals(0,testTracker.getCategories().get(0).getCategoryAmountOverBudget());
+    }
+
+    @Test
+    void addOneExpenseOverBudget() {
+        testTracker.addExpense("Clothes", "Shirt", 1300);
+        assertEquals(1, testTracker.getExpenses().size());
+        assertEquals("Clothes", testTracker.getExpenses().get(0).getCategoryName());
+        assertEquals("Shirt", testTracker.getExpenses().get(0).getItemName());
+        assertEquals(1300, testTracker.getExpenses().get(0).getMoneySpent());
+        assertEquals(1300, testTracker.getTotalSpent());
+        assertEquals(-100, testTracker.getAmountLeftInBudget());
+        assertEquals(100, testTracker.getAmountOverBudget());
+        assertEquals(1200,testTracker.getCategories().get(0).getCategoryAmountOverBudget());
     }
 
     @Test
