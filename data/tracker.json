@@ -1,8 +1,8 @@
 {
     "over": 0,
     "notification": 100,
-    "left": 950,
-    "spent": 50,
+    "left": 990,
+    "spent": 10,
     "categories": [
         {
             "over": 0,
@@ -15,10 +15,10 @@
         {
             "over": 0,
             "notification": 0,
-            "left": 950,
-            "spent": 50,
+            "left": 190,
+            "spent": 10,
             "category": "food",
-            "budget": 1000
+            "budget": 200
         }
     ],
     "category names": [
@@ -26,8 +26,8 @@
         {"name": "food"}
     ],
     "expenses": [{
-        "item": "50",
-        "amount": 50,
+        "item": "carrots",
+        "amount": 10,
         "category": "food"
     }],
     "budget": 1000

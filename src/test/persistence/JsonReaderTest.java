@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// Lots of code inspired by WorkRoom Workshop
+// Tests inspired by WorkRoom Workshop example
 public class JsonReaderTest extends JsonTest {
 
     @Test
