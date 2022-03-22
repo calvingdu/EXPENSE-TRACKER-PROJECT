@@ -1,5 +1,6 @@
 package ui;
 
+import model.Expense;
 import model.Tracker;
 import sun.invoke.empty.Empty;
 
@@ -7,6 +8,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 // Creates the Panel above table
@@ -21,17 +24,13 @@ public class TopPanel extends JPanel {
     JComboBox categoryComboBox = new JComboBox();
     JButton settingsButton = new JButton("Settings");
     Font buttonFont = new Font("Serif", Font.PLAIN, 18);
-    Tracker tracker = new Tracker();
+    Tracker tracker;
 
 
     // EFFECTS: Initializes the panel
-    public TopPanel() {
+    public TopPanel(Tracker tracker) {
         // testing
-        tracker.newCategory("Groceries",100);
-        tracker.newCategory("Bruh",100);
-        tracker.setTotalBudget(100);
-        tracker.setBudgetNotification(10);
-        tracker.addExpense("Groceries","Carrots",25);
+        this.tracker = tracker;
 
         setLayout(new BorderLayout());
         JPanel nameSaveLoad = createNameSaveLoad();
@@ -40,6 +39,8 @@ public class TopPanel extends JPanel {
         add(topLabelsPanel,BorderLayout.CENTER);
         JPanel settingsPanel = createSettingsPanel();
         add(settingsPanel,BorderLayout.SOUTH);
+        JButton button = makeTestButton();
+        add(button);
     }
 
     // EFFECTS: creates Expense Tracker Label, and save/load buttons
@@ -122,6 +123,24 @@ public class TopPanel extends JPanel {
         categoryBox.setPreferredSize(new Dimension(40,20));
         categoryBox.setFont(buttonFont);
         return categoryBox;
+    }
+
+    public JButton makeTestButton() {
+        JButton button = new JButton("test");
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // adds to tracker
+                tracker.addExpense("Groceries", "carrots", 500);
+
+                // testing
+                for (Expense expense : tracker.getExpenses()) {
+                    System.out.println(expense.getCategoryName());
+                }
+            }
+        });
+        return button;
     }
 }
 

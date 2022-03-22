@@ -12,15 +12,15 @@ import java.awt.*;
 public class MainGUI {
     Tracker tracker = new Tracker();
     JFrame frame = new JFrame("Expense Tracker");
-    JPanel topPanel = new TopPanel();
-    JPanel bottomPanel = new BottomPanel(tracker);
-    JPanel table = new TablePanel();
+    JPanel topPanel = new TopPanel(tracker);
+    JPanel bottomPanel = new BottomPanel();
+    JPanel table = new TablePanel(tracker);
 
     // EFFECTS: Initializes frame
     public MainGUI() {
         // testing
         tracker.newCategory("Groceries",100);
-        tracker.newCategory("Bruh",100);
+        tracker.newCategory("Food",100);
         tracker.setTotalBudget(100);
         tracker.setBudgetNotification(10);
 

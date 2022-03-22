@@ -19,11 +19,10 @@ public class BottomPanel extends JPanel {
     JLabel amountLabel;
     Font buttonFont = new Font("Serif", Font.PLAIN, 18);
     // testing
-    Tracker tracker;
+    Tracker tracker = new Tracker();
 
-    public BottomPanel(Tracker tracker) {
+    public BottomPanel() {
         // testing
-        this.tracker = tracker;
         tracker.newCategory("Groceries",100);
         tracker.newCategory("Bruh",100);
         tracker.setTotalBudget(100);
