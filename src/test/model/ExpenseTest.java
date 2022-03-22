@@ -20,7 +20,7 @@ public class ExpenseTest {
     void testExpense() {
         assertEquals("Groceries", testExpense.getCategoryName());
         assertEquals("Carrots", testExpense.getItemName());
-        assertEquals(25, testExpense.getMoneySpent());
+        assertEquals(25, testExpense.getAmount());
     }
 
     @Test
@@ -28,6 +28,6 @@ public class ExpenseTest {
         testExpense.changeCategoryName("Food");
         assertEquals("Food", testExpense.getCategoryName());
         assertEquals("Carrots", testExpense.getItemName());
-        assertEquals(25, testExpense.getMoneySpent());
+        assertEquals(25, testExpense.getAmount());
     }
 }

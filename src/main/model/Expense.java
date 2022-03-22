@@ -7,14 +7,14 @@ import persistence.Writable;
 public class Expense implements Writable {
     private String categoryName;
     private String itemName;
-    private double moneySpent;
+    private double amount;
 
     // REQUIRES: name and item has non-zero length, amount >= 0
     // EFFECTS: creates category with a name and a budget
     public Expense(String name, String item, double amount) {
         categoryName = name;
         itemName = item;
-        moneySpent = amount;
+        this.amount = amount;
     }
 
     // REQUIRES: string name has non-zero length
@@ -32,8 +32,8 @@ public class Expense implements Writable {
         return itemName;
     }
 
-    public double getMoneySpent() {
-        return moneySpent;
+    public double getAmount() {
+        return amount;
     }
 
     // EFFECTS: creates jsonObject of expense
@@ -41,7 +41,7 @@ public class Expense implements Writable {
         JSONObject jsonExpense = new JSONObject();
         jsonExpense.put("category", categoryName);
         jsonExpense.put("item", itemName);
-        jsonExpense.put("amount", moneySpent);
+        jsonExpense.put("amount", amount);
         return jsonExpense;
     }
 

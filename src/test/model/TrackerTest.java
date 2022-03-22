@@ -232,7 +232,7 @@ public class TrackerTest {
         assertEquals(1, testTracker.getExpenses().size());
         assertEquals("Clothes", testTracker.getExpenses().get(0).getCategoryName());
         assertEquals("Shirt", testTracker.getExpenses().get(0).getItemName());
-        assertEquals(100, testTracker.getExpenses().get(0).getMoneySpent());
+        assertEquals(100, testTracker.getExpenses().get(0).getAmount());
         assertEquals(100, testTracker.getTotalSpent());
         assertEquals(1100, testTracker.getAmountLeftInBudget());
         assertEquals(0, testTracker.getAmountOverBudget());
@@ -245,7 +245,7 @@ public class TrackerTest {
         assertEquals(1, testTracker.getExpenses().size());
         assertEquals("Clothes", testTracker.getExpenses().get(0).getCategoryName());
         assertEquals("Shirt", testTracker.getExpenses().get(0).getItemName());
-        assertEquals(1300, testTracker.getExpenses().get(0).getMoneySpent());
+        assertEquals(1300, testTracker.getExpenses().get(0).getAmount());
         assertEquals(1300, testTracker.getTotalSpent());
         assertEquals(-100, testTracker.getAmountLeftInBudget());
         assertEquals(100, testTracker.getAmountOverBudget());
@@ -259,11 +259,11 @@ public class TrackerTest {
         assertEquals(2, testTracker.getExpenses().size());
         assertEquals("Clothes", testTracker.getExpenses().get(0).getCategoryName());
         assertEquals("Shirt", testTracker.getExpenses().get(0).getItemName());
-        assertEquals(100, testTracker.getExpenses().get(0).getMoneySpent());
+        assertEquals(100, testTracker.getExpenses().get(0).getAmount());
 
         assertEquals("Clothes", testTracker.getExpenses().get(1).getCategoryName());
         assertEquals("Pants", testTracker.getExpenses().get(1).getItemName());
-        assertEquals(1, testTracker.getExpenses().get(1).getMoneySpent());
+        assertEquals(1, testTracker.getExpenses().get(1).getAmount());
     }
 
     @Test
@@ -274,11 +274,11 @@ public class TrackerTest {
         assertEquals(2, testTracker.getExpenses().size());
         assertEquals("Clothes", testTracker.getExpenses().get(0).getCategoryName());
         assertEquals("Shirt", testTracker.getExpenses().get(0).getItemName());
-        assertEquals(100, testTracker.getExpenses().get(0).getMoneySpent());
+        assertEquals(100, testTracker.getExpenses().get(0).getAmount());
 
         assertEquals("Textbooks", testTracker.getExpenses().get(1).getCategoryName());
         assertEquals("CPSC", testTracker.getExpenses().get(1).getItemName());
-        assertEquals(200, testTracker.getExpenses().get(1).getMoneySpent());
+        assertEquals(200, testTracker.getExpenses().get(1).getAmount());
 
         assertEquals(100,testTracker.getCategories().get(0).getCategoryAmountSpent());
         assertEquals(200,testTracker.getCategories().get(1).getCategoryAmountSpent());
@@ -300,7 +300,7 @@ public class TrackerTest {
         assertEquals(1, testTracker.getExpenses().size());
         assertEquals("Textbook", testTracker.getExpenses().get(0).getCategoryName());
         assertEquals("CPSC", testTracker.getExpenses().get(0).getItemName());
-        assertEquals(100, testTracker.getExpenses().get(0).getMoneySpent());
+        assertEquals(100, testTracker.getExpenses().get(0).getAmount());
     }
 
     @Test

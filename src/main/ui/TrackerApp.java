@@ -208,7 +208,7 @@ public class TrackerApp {
     // EFFECTS: shows all expenses
     private void doShowExpenses() {
         for (Expense expense : tracker.getExpenses()) {
-            System.out.println("You bought " + expense.getItemName() + " for $" + expense.getMoneySpent() + " in the "
+            System.out.println("You bought " + expense.getItemName() + " for $" + expense.getAmount() + " in the "
                     + expense.getCategoryName() + " category");
         }
     }
@@ -223,7 +223,7 @@ public class TrackerApp {
             for (Expense expense : tracker.getExpenses()) {
                 if (expense.getCategoryName().equals(categoryName)) {
                     System.out.println("You bought " + expense.getItemName()
-                            + " for $" + expense.getMoneySpent() + " in the "
+                            + " for $" + expense.getAmount() + " in the "
                             + expense.getCategoryName() + " category");
                 }
             }

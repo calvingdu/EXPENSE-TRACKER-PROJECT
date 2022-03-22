@@ -32,7 +32,7 @@ public class JsonTest {
     void checkExpense(String name, String item, double amount, Expense expense) {
         assertEquals(name, expense.getCategoryName());
         assertEquals(item, expense.getItemName());
-        assertEquals(amount, expense.getMoneySpent());
+        assertEquals(amount, expense.getAmount());
     }
 
     // EFFECTS: checks if category is equivalent to category in tracker
