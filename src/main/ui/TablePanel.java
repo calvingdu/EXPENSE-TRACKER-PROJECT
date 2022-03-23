@@ -8,31 +8,24 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
+// JPanel which includes the ScrollPanel and the table within ScrollPanel
 public class TablePanel extends JPanel {
-    // testing
     Tracker tracker;
 
     JScrollPane tablePane;
     DefaultTableModel model;
     JTable table;
 
-
     public TablePanel(Tracker tracker) {
         this.tracker = tracker;
 
         tablePane = makeTableScrollPane();
         add(tablePane);
-
-        // testing
-        JButton button = makeTestButton();
-        add(button);
     }
 
 
-    // EFFECTS: Makes the table
+    // EFFECTS: Makes the table/scrollpane
     private JScrollPane makeTableScrollPane() {
         String[] columnNames = {"Category", "Item", "Amount"};
         model = new DefaultTableModel(columnNames, 0) {
@@ -50,6 +43,7 @@ public class TablePanel extends JPanel {
         return scrollPane;
     }
 
+    // EFFECTS: Updates table to be up to date with tracker
     public void updateTrackerTable() {
         model.setRowCount(0);
         for (Expense expense : tracker.getExpenses()) {
@@ -61,17 +55,18 @@ public class TablePanel extends JPanel {
         }
     }
 
-    // EFFECTS: Changes table to settings
+    // EFFECTS: Changes table look
     private void editTable(JTable table) {
         Font headerFont = new Font("Serif", Font.BOLD, 24);
         Font tableFont = new Font("Serif", Font.PLAIN, 18);
-        table.setPreferredScrollableViewportSize(new Dimension(1000, 500));
+        table.setPreferredScrollableViewportSize(new Dimension(1400, 600));
         table.setFillsViewportHeight(true);
         table.setShowGrid(true);
         table.setGridColor(Color.black);
         JTableHeader header = table.getTableHeader();
         header.setOpaque(false);
         header.setFont(headerFont);
+        header.setBorder(BorderFactory.createLineBorder(Color.black));;
         TableCellRenderer rendererFromHeader = table.getTableHeader().getDefaultRenderer();
         JLabel headerLabel = (JLabel) rendererFromHeader;
         headerLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -79,23 +74,19 @@ public class TablePanel extends JPanel {
         table.setFont(tableFont);
     }
 
-    public JButton makeTestButton() {
-        JButton button = new JButton("test");
-
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // adds to tracker
-                updateTrackerTable();
-
-                // testing
-                for (Expense expense : tracker.getExpenses()) {
-                    System.out.println(expense.getCategoryName());
-                    System.out.println(expense.getItemName());
-                    System.out.println(expense.getAmount());
-                }
-                }
-            });
-        return button;
+    // EFFECTS: Sets tracker to be tracker used in mainGUI
+    public void setTracker(Tracker newTracker) {
+        tracker = newTracker;
     }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public DefaultTableModel getModel() {
+        return model;
+    }
+
+
+
 }

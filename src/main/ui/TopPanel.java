@@ -1,9 +1,7 @@
 package ui;
 
 import model.Category;
-import model.Expense;
 import model.Tracker;
-import sun.invoke.empty.Empty;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -29,17 +27,24 @@ public class TopPanel extends JPanel {
     JLabel spentLabel;
     JLabel amountLeftLabel;
     JComboBox categoryComboBox = new JComboBox();
-    JButton settingsButton = new JButton("Settings");
+    JButton filterButton = new JButton();
+    JButton newCategoryButton = new JButton();
+    JButton newBudgetButton = new JButton();
+    JButton newNotificationButton = new JButton();
     Font buttonFont = new Font("Serif", Font.PLAIN, 18);
     Tracker tracker;
+    MainGUI main;
+    JFrame frame;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
     private static final String JSON_STORE = "./data/tracker.json";
 
 
     // EFFECTS: Initializes the panel
-    public TopPanel(Tracker tracker) {
-        this.tracker = tracker;
+    public TopPanel(MainGUI main) {
+        this.main = main;
+        frame = main.getFrame();
+        this.tracker = main.getTracker();
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
 
@@ -51,8 +56,6 @@ public class TopPanel extends JPanel {
         JPanel settingsPanel = createSettingsPanel();
         add(settingsPanel,BorderLayout.SOUTH);
 
-        JButton button = makeTestButton();
-        add(button,BorderLayout.EAST);
     }
 
     // EFFECTS: creates Expense Tracker Label, and save/load buttons
@@ -74,6 +77,48 @@ public class TopPanel extends JPanel {
         panel.add(loadButton);
         panel.setBorder(new EmptyBorder(2,5,10,5));
         return panel;
+    }
+
+    // EFFECTS: creates a button used to save data
+    public JButton createSaveButton() {
+        saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    jsonWriter.open();
+                    jsonWriter.write(tracker);
+                    jsonWriter.close();
+                    System.out.println("Saved Tracker to " + JSON_STORE);
+                } catch (FileNotFoundException exception) {
+                    System.out.println("Unable to write to file: " + JSON_STORE);
+                }
+            }
+        });
+        saveButton.setBorder(BorderFactory.createLineBorder(Color.black));
+        return saveButton;
+    }
+
+    // EFFECTS: creates a button used to load data
+    public JButton createLoadButton() {
+        loadButton = new JButton("Load");
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    tracker = jsonReader.read();
+                    System.out.println("Loaded tracker from " + JSON_STORE);
+                } catch (IOException exception) {
+                    System.out.println("Unable to read from file: " + JSON_STORE);
+                }
+
+                main.setTrackers(tracker);
+                main.update();
+                main.updateCategoryBox();
+            }
+        });
+        loadButton.setBorder(BorderFactory.createLineBorder(Color.black));
+        return loadButton;
     }
 
     // EFFECTS: creates labels
@@ -116,35 +161,7 @@ public class TopPanel extends JPanel {
         }
     }
 
-    // EFFECTS: Creates combo box of categories and settings button
-    public JPanel createSettingsPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
-        settingsButton.setFont(buttonFont);
-        settingsButton.setPreferredSize(new Dimension(300,20));
-        categoryComboBox = createCategoryComboBox();
-        panel.add(categoryComboBox);
-        panel.add(Box.createHorizontalGlue());
-        panel.add(settingsButton);
-        panel.setBorder(new EmptyBorder(10,5,10,5));
-        return panel;
-    }
-
-    // EFFECTS: Creates Category ComboBox
-    public JComboBox createCategoryComboBox() {
-        ArrayList<String> categoriesArray = new ArrayList<>();
-        for (Category category : tracker.getCategories()) {
-            categoriesArray.add(category.getCategoryName());
-        }
-
-        Object[] categoryStrings = {};
-        categoryStrings = categoriesArray.toArray();
-        JComboBox categoryBox = new JComboBox<>(categoryStrings);
-        categoryBox.setPreferredSize(new Dimension(200,20));
-        categoryBox.setFont(buttonFont);
-        return categoryBox;
-    }
-
+    // EFFECTS: updates labels with tracker's data
     public void updateLabels() {
         budgetLabel.setText("Budget: $" + tracker.getTotalBudget());
         notificationLabel.setText("Notification: $" + tracker.getBudgetNotification());
@@ -152,63 +169,137 @@ public class TopPanel extends JPanel {
         amountLeftLabel.setText("Amount Left: $" + tracker.getAmountLeftInBudget());
     }
 
-    public JButton createSaveButton() {
-        saveButton = new JButton("Save");
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    jsonWriter.open();
-                    jsonWriter.write(tracker);
-                    jsonWriter.close();
-                    System.out.println("Saved Tracker to " + JSON_STORE);
-                } catch (FileNotFoundException exception) {
-                    System.out.println("Unable to write to file: " + JSON_STORE);
-                }
-            }
-        });
-        return saveButton;
+
+    // EFFECTS: Creates combo box of categories and settings button
+    public JPanel createSettingsPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
+        categoryComboBox = createCategoryComboBox();
+        panel.add(categoryComboBox);
+        filterButton = createFilterButton();
+        panel.add(filterButton);
+        panel.add(Box.createHorizontalGlue());
+        newBudgetButton = createNewBudgetButton();
+        panel.add(newBudgetButton);
+        panel.add(Box.createRigidArea(new Dimension(25,20)));
+        newNotificationButton = createNewNotifButton();
+        panel.add(newNotificationButton);
+        panel.add(Box.createRigidArea(new Dimension(25,20)));
+        newCategoryButton = createNewCategoryButton();
+        panel.add(newCategoryButton);
+        panel.add(Box.createRigidArea(new Dimension(25,20)));
+        panel.setBorder(new EmptyBorder(10,5,10,5));
+        return panel;
     }
 
-    public JButton createLoadButton() {
-        loadButton = new JButton("Load");
-        loadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    tracker = jsonReader.read();
-                    System.out.println("Loaded tracker from " + JSON_STORE);
-                } catch (IOException exception) {
-                    System.out.println("Unable to read from file: " + JSON_STORE);
-                }
+    // EFFECTS: Creates Category ComboBox
+    public JComboBox createCategoryComboBox() {
+        JComboBox categoryBox = new JComboBox();
+        DefaultComboBoxModel model = (DefaultComboBoxModel) categoryBox.getModel();
+        model.removeAllElements();
 
-                updateLabels();
-            }
-        });
-        return loadButton;
+        model.addElement("Show All");
+        for (Category category : tracker.getCategories()) {
+            model.addElement(category.getCategoryName());
+        }
 
+        categoryBox.setModel(model);
+
+        categoryBox.setPreferredSize(new Dimension(200,20));
+        categoryBox.setFont(buttonFont);
+        return categoryBox;
     }
 
-    public JButton makeTestButton() {
-        JButton button = new JButton("test");
+    // EFFECTS: Updates CategoryComboBox to have categories from tracker model
+    public void updateCategoryComboBox() {
+        categoryComboBox.removeAllItems();
+
+        categoryComboBox.addItem("Show All");
+        for (Category category : tracker.getCategories()) {
+            categoryComboBox.addItem(category.getCategoryName());
+        }
+
+        categoryComboBox.setPreferredSize(new Dimension(200,20));
+        categoryComboBox.setFont(buttonFont);
+    }
+
+    // EFFECTS: creates button that filters table
+    public JButton createFilterButton() {
+        JButton button = new JButton("Filter");
 
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // adds to tracker
-                updateLabels();
-
-                // testing
-                for (Expense expense : tracker.getExpenses()) {
-                    System.out.println(expense.getCategoryName());
-                    System.out.println(expense.getItemName());
-                    System.out.println(expense.getAmount());
-                }
+                main.filterTable(categoryComboBox.getSelectedItem().toString());
             }
         });
+
+        button.setFont(buttonFont);
+        button.setPreferredSize(new Dimension(150,20));
+        button.setBorder(BorderFactory.createLineBorder(Color.black));
         return button;
     }
 
+
+
+    // EFFECTS: creates button to make a new category
+    public JButton createNewCategoryButton() {
+        JButton button = new JButton("New Category");
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String inputValue = JOptionPane.showInputDialog("New Category Name:");
+                tracker.newCategory(inputValue, 100);
+                main.updateCategoryBox();
+                }
+        });
+
+        button.setFont(buttonFont);
+        button.setPreferredSize(new Dimension(250,20));
+        button.setBorder(BorderFactory.createLineBorder(Color.black));
+        return button;
+    }
+
+    // EFFECTS: creates a button to set tracker's total budget
+    public JButton createNewBudgetButton() {
+        JButton button = new JButton("Set Budget");
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String inputValue = JOptionPane.showInputDialog("Set Budget:");
+                Double amountDouble = Double.parseDouble(inputValue);
+                tracker.setTotalBudget(amountDouble);
+                main.update();
+            }
+        });
+
+        button.setFont(buttonFont);
+        button.setPreferredSize(new Dimension(250,20));
+        button.setBorder(BorderFactory.createLineBorder(Color.black));
+        return button;
+    }
+
+    // EFFECTS: creates a button to set the tracker's notification amount
+    public JButton createNewNotifButton() {
+        JButton button = new JButton("Set Notification");
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String inputValue = JOptionPane.showInputDialog("Set Notification Amount:");
+                Double amountDouble = Double.parseDouble(inputValue);
+                tracker.setBudgetNotification(amountDouble);
+                main.update();
+            }
+        });
+
+        button.setFont(buttonFont);
+        button.setPreferredSize(new Dimension(250,20));
+        button.setBorder(BorderFactory.createLineBorder(Color.black));
+        return button;
+    }
 
 }
 
