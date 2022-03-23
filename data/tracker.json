@@ -1,34 +1,46 @@
 {
     "over": 0,
-    "notification": 100,
-    "left": 990,
-    "spent": 10,
+    "notification": 10,
+    "left": 48,
+    "spent": 52,
     "categories": [
         {
             "over": 0,
             "notification": 0,
-            "left": 100,
-            "spent": 0,
-            "category": "groceries",
+            "left": 48,
+            "spent": 52,
+            "category": "Groceries",
             "budget": 100
         },
         {
             "over": 0,
             "notification": 0,
-            "left": 190,
-            "spent": 10,
-            "category": "food",
-            "budget": 200
+            "left": 100,
+            "spent": 0,
+            "category": "Food",
+            "budget": 100
         }
     ],
     "category names": [
-        {"name": "groceries"},
-        {"name": "food"}
+        {"name": "Groceries"},
+        {"name": "Food"}
     ],
-    "expenses": [{
-        "item": "carrots",
-        "amount": 10,
-        "category": "food"
-    }],
-    "budget": 1000
+    "expenses": [
+        {
+            "item": "bruh",
+            "amount": 20,
+            "category": "Groceries"
+        },
+        {
+            "item": "okay",
+            "amount": 27,
+            "category": "Groceries"
+        },
+        {
+            "item": "bruh",
+            "amount": 5,
+            "category": "Groceries"
+        }
+    ],
+    "budget": 100
 }

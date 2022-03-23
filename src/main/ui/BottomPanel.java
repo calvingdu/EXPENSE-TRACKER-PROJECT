@@ -1,6 +1,7 @@
 package ui;
 
 import model.Category;
+import model.Expense;
 import model.Tracker;
 
 import javax.swing.*;
@@ -18,15 +19,10 @@ public class BottomPanel extends JPanel {
     JLabel nameLabel;
     JLabel amountLabel;
     Font buttonFont = new Font("Serif", Font.PLAIN, 18);
-    // testing
-    Tracker tracker = new Tracker();
+    Tracker tracker;
 
-    public BottomPanel() {
-        // testing
-        tracker.newCategory("Groceries",100);
-        tracker.newCategory("Bruh",100);
-        tracker.setTotalBudget(100);
-        tracker.setBudgetNotification(10);
+    public BottomPanel(Tracker tracker) {
+        this.tracker = tracker;
 
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         categorySelectorBox = createCategorySelectorBox();
@@ -91,13 +87,11 @@ public class BottomPanel extends JPanel {
 
                 // adds to tracker
                 tracker.addExpense(stringCategory,name,amountDouble);
+
                 // testing
-                System.out.println(stringCategory + name + amountDouble);
-                System.out.println(tracker.getExpenses());
-                System.out.println(tracker.getExpenses().get(0).getCategoryName());
-                System.out.println(tracker.getExpenses().get(0).getItemName());
-                System.out.println(tracker.getExpenses().get(0).getAmount());
-                System.out.println(tracker.getExpenses().get(1).getCategoryName());
+                for (Expense expense : tracker.getExpenses()) {
+                    System.out.println(expense.getCategoryName());
+                }
             }
         });
         return addExpenseButton;

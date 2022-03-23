@@ -4,17 +4,16 @@ package ui;
 import model.Tracker;
 
 import javax.swing.*;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
 // Creates GUI with table and panels
 public class MainGUI {
     Tracker tracker = new Tracker();
     JFrame frame = new JFrame("Expense Tracker");
-    JPanel topPanel = new TopPanel(tracker);
-    JPanel bottomPanel = new BottomPanel();
-    JPanel table = new TablePanel(tracker);
+    JPanel topPanel;
+    JPanel bottomPanel;
+    JPanel table;
+
 
     // EFFECTS: Initializes frame
     public MainGUI() {
@@ -23,6 +22,10 @@ public class MainGUI {
         tracker.newCategory("Food",100);
         tracker.setTotalBudget(100);
         tracker.setBudgetNotification(10);
+
+        topPanel = new TopPanel(tracker);
+        table = new TablePanel(tracker);
+        bottomPanel = new BottomPanel(tracker);
 
         frame.setLayout(new BorderLayout());
         frame.add(topPanel,BorderLayout.NORTH);

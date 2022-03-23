@@ -1,5 +1,6 @@
 package ui;
 
+import model.Category;
 import model.Expense;
 import model.Tracker;
 import sun.invoke.empty.Empty;
@@ -10,13 +11,19 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
 
 // Creates the Panel above table
 public class TopPanel extends JPanel {
     JLabel expenseTrackerLabel = new JLabel("Expense Tracker");
-    JButton saveButton = new JButton("Save");
-    JButton loadButton = new JButton("Load");
+    JButton saveButton;
+    JButton loadButton;
     JLabel budgetLabel;
     JLabel notificationLabel;
     JLabel spentLabel;
@@ -25,12 +32,16 @@ public class TopPanel extends JPanel {
     JButton settingsButton = new JButton("Settings");
     Font buttonFont = new Font("Serif", Font.PLAIN, 18);
     Tracker tracker;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    private static final String JSON_STORE = "./data/tracker.json";
 
 
     // EFFECTS: Initializes the panel
     public TopPanel(Tracker tracker) {
-        // testing
         this.tracker = tracker;
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
 
         setLayout(new BorderLayout());
         JPanel nameSaveLoad = createNameSaveLoad();
@@ -39,8 +50,9 @@ public class TopPanel extends JPanel {
         add(topLabelsPanel,BorderLayout.CENTER);
         JPanel settingsPanel = createSettingsPanel();
         add(settingsPanel,BorderLayout.SOUTH);
+
         JButton button = makeTestButton();
-        add(button);
+        add(button,BorderLayout.EAST);
     }
 
     // EFFECTS: creates Expense Tracker Label, and save/load buttons
@@ -52,6 +64,8 @@ public class TopPanel extends JPanel {
         expenseTrackerLabel.setBorder(new EmptyBorder(5, 10, 0, 200));
         panel.add(expenseTrackerLabel);
         panel.add(Box.createHorizontalGlue());
+        saveButton = createSaveButton();
+        loadButton = createLoadButton();
         saveButton.setFont(buttonFont);
         loadButton.setFont(buttonFont);
         saveButton.setPreferredSize(new Dimension(300,20));
@@ -118,11 +132,61 @@ public class TopPanel extends JPanel {
 
     // EFFECTS: Creates Category ComboBox
     public JComboBox createCategoryComboBox() {
-        String[] categoryStrings = { "Groceries", "Textbooks"};
+        ArrayList<String> categoriesArray = new ArrayList<>();
+        for (Category category : tracker.getCategories()) {
+            categoriesArray.add(category.getCategoryName());
+        }
+
+        Object[] categoryStrings = {};
+        categoryStrings = categoriesArray.toArray();
         JComboBox categoryBox = new JComboBox<>(categoryStrings);
-        categoryBox.setPreferredSize(new Dimension(40,20));
+        categoryBox.setPreferredSize(new Dimension(200,20));
         categoryBox.setFont(buttonFont);
         return categoryBox;
+    }
+
+    public void updateLabels() {
+        budgetLabel.setText("Budget: $" + tracker.getTotalBudget());
+        notificationLabel.setText("Notification: $" + tracker.getBudgetNotification());
+        spentLabel.setText("Spent: $" + tracker.getTotalSpent());
+        amountLeftLabel.setText("Amount Left: $" + tracker.getAmountLeftInBudget());
+    }
+
+    public JButton createSaveButton() {
+        saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    jsonWriter.open();
+                    jsonWriter.write(tracker);
+                    jsonWriter.close();
+                    System.out.println("Saved Tracker to " + JSON_STORE);
+                } catch (FileNotFoundException exception) {
+                    System.out.println("Unable to write to file: " + JSON_STORE);
+                }
+            }
+        });
+        return saveButton;
+    }
+
+    public JButton createLoadButton() {
+        loadButton = new JButton("Load");
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    tracker = jsonReader.read();
+                    System.out.println("Loaded tracker from " + JSON_STORE);
+                } catch (IOException exception) {
+                    System.out.println("Unable to read from file: " + JSON_STORE);
+                }
+
+                updateLabels();
+            }
+        });
+        return loadButton;
+
     }
 
     public JButton makeTestButton() {
@@ -132,15 +196,19 @@ public class TopPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // adds to tracker
-                tracker.addExpense("Groceries", "carrots", 500);
+                updateLabels();
 
                 // testing
                 for (Expense expense : tracker.getExpenses()) {
                     System.out.println(expense.getCategoryName());
+                    System.out.println(expense.getItemName());
+                    System.out.println(expense.getAmount());
                 }
             }
         });
         return button;
     }
+
+
 }
 

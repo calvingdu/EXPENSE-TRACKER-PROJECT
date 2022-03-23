@@ -21,7 +21,6 @@ public class TablePanel extends JPanel {
 
 
     public TablePanel(Tracker tracker) {
-        // testing
         this.tracker = tracker;
 
         tablePane = makeTableScrollPane();
@@ -51,7 +50,7 @@ public class TablePanel extends JPanel {
         return scrollPane;
     }
 
-    private void updateTrackerTable() {
+    public void updateTrackerTable() {
         model.setRowCount(0);
         for (Expense expense : tracker.getExpenses()) {
             model.addRow(
@@ -87,12 +86,13 @@ public class TablePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // adds to tracker
-                tracker.addExpense("Groceries", "carrots", 500);
                 updateTrackerTable();
 
                 // testing
                 for (Expense expense : tracker.getExpenses()) {
                     System.out.println(expense.getCategoryName());
+                    System.out.println(expense.getItemName());
+                    System.out.println(expense.getAmount());
                 }
                 }
             });
