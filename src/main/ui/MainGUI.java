@@ -4,7 +4,6 @@ package ui;
 import model.Tracker;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
@@ -23,7 +22,6 @@ public class MainGUI {
         tablePanel = new TablePanel(tracker);
         topPanel = new TopPanel(this);
         bottomPanel = new BottomPanel(this);
-
 
         frame.setLayout(new BorderLayout());
         frame.add(topPanel,BorderLayout.NORTH);
@@ -54,6 +52,7 @@ public class MainGUI {
     // EFFECTS: filters table to a selection in the top panel
     public void filterTable(String input) {
         TableModel model = tablePanel.getModel();
+
         String filterString = input;
 
         TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(model);

@@ -1,41 +1,60 @@
 {
-    "over": 0,
+    "over": 1,
     "notification": 100,
-    "left": 280,
-    "spent": 220,
+    "left": -1,
+    "spent": 1001,
     "categories": [
         {
-            "over": 0,
+            "over": 851,
             "notification": 0,
-            "left": 80,
-            "spent": 20,
-            "category": "Groceries",
+            "left": -851,
+            "spent": 951,
+            "category": "Food",
             "budget": 100
         },
         {
-            "over": 100,
+            "over": 0,
             "notification": 0,
-            "left": -100,
-            "spent": 200,
-            "category": "Food",
+            "left": 50,
+            "spent": 50,
+            "category": "Clothes",
+            "budget": 100
+        },
+        {
+            "over": 0,
+            "notification": 0,
+            "left": 100,
+            "spent": 0,
+            "category": "Groceries",
             "budget": 100
         }
     ],
     "category names": [
-        {"name": "Groceries"},
-        {"name": "Food"}
+        {"name": "Food"},
+        {"name": "Clothes"},
+        {"name": "Groceries"}
     ],
     "expenses": [
         {
-            "item": "Carrots",
-            "amount": 20,
-            "category": "Groceries"
+            "item": "Bagel",
+            "amount": 6,
+            "category": "Food"
         },
         {
-            "item": "Hamburgers",
-            "amount": 200,
+            "item": "Tshirt",
+            "amount": 50,
+            "category": "Clothes"
+        },
+        {
+            "item": "845",
+            "amount": 845,
+            "category": "Food"
+        },
+        {
+            "item": "100",
+            "amount": 100,
             "category": "Food"
         }
     ],
-    "budget": 500
+    "budget": 1000
 }

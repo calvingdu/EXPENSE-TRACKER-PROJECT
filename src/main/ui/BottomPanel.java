@@ -151,7 +151,8 @@ public class BottomPanel extends JPanel {
 
     // EFFECTS: displays popup if tracker goes below notification or over budget
     public void checkNotifications() {
-        ImageIcon image = new ImageIcon("./data/jade.jpeg");
+        ImageIcon image = new ImageIcon("./data/money.jpg");
+        // https://blogs.warehousetwo.com/are-your-customers-price-shopping-within-your-company
         Image originalImage = image.getImage();
         Image resizedImage = originalImage.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH);
         ImageIcon imageIcon = new ImageIcon(resizedImage);

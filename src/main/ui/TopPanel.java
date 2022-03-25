@@ -93,6 +93,8 @@ public class TopPanel extends JPanel {
                 } catch (FileNotFoundException exception) {
                     System.out.println("Unable to write to file: " + JSON_STORE);
                 }
+                JOptionPane.showMessageDialog(frame,
+                        "Saved");
             }
         });
         saveButton.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -115,6 +117,8 @@ public class TopPanel extends JPanel {
                 main.setTrackers(tracker);
                 main.update();
                 main.updateCategoryBox();
+                JOptionPane.showMessageDialog(frame,
+                        "Loaded");
             }
         });
         loadButton.setBorder(BorderFactory.createLineBorder(Color.black));
