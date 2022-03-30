@@ -37,6 +37,7 @@ public class Tracker implements Writable {
         if (amountOverBudget <= 0) {
             amountOverBudget = 0;
         }
+        EventLog.getInstance().logEvent(new Event("Set Budget: $" + amount));
     }
 
     // REQUIRES: amount >= 0
@@ -45,6 +46,7 @@ public class Tracker implements Writable {
     // in their budget
     public void setBudgetNotification(double amount) {
         budgetNotification = amount;
+        EventLog.getInstance().logEvent(new Event("Set Notification Amount: $" + amount));
     }
 
     // REQUIRES: name and item string length is non-zero, amount >= 0
@@ -67,6 +69,20 @@ public class Tracker implements Writable {
             category.expenseInCategory(amount);
             category.notifyNearCategoryBudget(category);
             category.notifyOverCategoryBudget(category);
+            logEvents(categoryName, item, amount);
+        }
+    }
+
+    // MODIFIES: EventLog
+    // EFFECTS: Logs Events to EventLog
+    private void logEvents(String categoryName, String item, double amount) {
+        EventLog.getInstance().logEvent(new Event(
+                "Added Expense: " + categoryName + " // " + item + " // $" + amount));
+        if (notifyOverBudget()) {
+            EventLog.getInstance().logEvent(new Event("Notified Over Budget"));
+        }
+        if (notifyNearBudget()) {
+            EventLog.getInstance().logEvent(new Event("Notified Near Budget"));
         }
     }
 
@@ -78,6 +94,7 @@ public class Tracker implements Writable {
         if (!doesCategoryExist(name)) {
             categories.add(category);
             categoryNames.add(name);
+            EventLog.getInstance().logEvent(new Event("Added Category: " + name));
         }
     }
 

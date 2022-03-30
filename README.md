@@ -32,3 +32,23 @@ change the name of
 
 - As a user, I want to be able to save my categories and my expenses  
 - As a user, I want to be able to be able to load my previously created categories and my expenses  
+
+## Sample Event Log
+Wed Mar 30 12:45:39 PDT 2022
+Set Budget: $1000.0
+Wed Mar 30 12:45:41 PDT 2022
+Set Notification Amount: $100.0
+Wed Mar 30 12:45:44 PDT 2022
+Added Category: category1
+Wed Mar 30 12:45:47 PDT 2022
+Added Category: category2
+Wed Mar 30 12:45:52 PDT 2022
+Added Expense: category1 // 100 // $100.0
+Wed Mar 30 12:46:00 PDT 2022
+Added Expense: category1 // 850 // $850.0
+Wed Mar 30 12:46:00 PDT 2022
+Notified Near Budget
+Wed Mar 30 12:46:08 PDT 2022
+Added Expense: category2 // 100 // $100.0
+Wed Mar 30 12:46:08 PDT 2022
+Notified Over Budget

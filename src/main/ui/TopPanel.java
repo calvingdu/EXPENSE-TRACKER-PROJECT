@@ -89,7 +89,6 @@ public class TopPanel extends JPanel {
                     jsonWriter.open();
                     jsonWriter.write(tracker);
                     jsonWriter.close();
-                    System.out.println("Saved Tracker to " + JSON_STORE);
                 } catch (FileNotFoundException exception) {
                     System.out.println("Unable to write to file: " + JSON_STORE);
                 }
@@ -109,7 +108,6 @@ public class TopPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     tracker = jsonReader.read();
-                    System.out.println("Loaded tracker from " + JSON_STORE);
                 } catch (IOException exception) {
                     System.out.println("Unable to read from file: " + JSON_STORE);
                 }
@@ -183,18 +181,24 @@ public class TopPanel extends JPanel {
         filterButton = createFilterButton();
         panel.add(filterButton);
         panel.add(Box.createHorizontalGlue());
-        newBudgetButton = createNewBudgetButton();
-        panel.add(newBudgetButton);
-        panel.add(Box.createRigidArea(new Dimension(25,20)));
-        newNotificationButton = createNewNotifButton();
-        panel.add(newNotificationButton);
-        panel.add(Box.createRigidArea(new Dimension(25,20)));
-        newCategoryButton = createNewCategoryButton();
-        panel.add(newCategoryButton);
-        panel.add(Box.createRigidArea(new Dimension(25,20)));
+
+        ArrayList<JButton> buttons = new ArrayList<>();
+        buttons.add(newBudgetButton = createNewBudgetButton());
+        buttons.add(newNotificationButton = createNewNotifButton());
+        buttons.add(newCategoryButton = createNewCategoryButton());
+
+        for (JButton button : buttons) {
+            button.setFont(buttonFont);
+            button.setPreferredSize(new Dimension(175,20));
+            button.setBorder(BorderFactory.createLineBorder(Color.black));
+            panel.add(button);
+            panel.add(Box.createRigidArea(new Dimension(15,20)));
+        }
         panel.setBorder(new EmptyBorder(10,5,10,5));
+
         return panel;
     }
+
 
     // EFFECTS: Creates Category ComboBox
     public JComboBox createCategoryComboBox() {
@@ -258,10 +262,6 @@ public class TopPanel extends JPanel {
                 main.updateCategoryBox();
                 }
         });
-
-        button.setFont(buttonFont);
-        button.setPreferredSize(new Dimension(250,20));
-        button.setBorder(BorderFactory.createLineBorder(Color.black));
         return button;
     }
 
@@ -278,10 +278,6 @@ public class TopPanel extends JPanel {
                 main.update();
             }
         });
-
-        button.setFont(buttonFont);
-        button.setPreferredSize(new Dimension(250,20));
-        button.setBorder(BorderFactory.createLineBorder(Color.black));
         return button;
     }
 
@@ -298,12 +294,7 @@ public class TopPanel extends JPanel {
                 main.update();
             }
         });
-
-        button.setFont(buttonFont);
-        button.setPreferredSize(new Dimension(250,20));
-        button.setBorder(BorderFactory.createLineBorder(Color.black));
         return button;
     }
-
 }
 

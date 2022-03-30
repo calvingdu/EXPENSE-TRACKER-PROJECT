@@ -1,12 +1,15 @@
 package ui;
 
 
+import model.Event;
+import model.EventLog;
 import model.Tracker;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+
 
 // Creates GUI with table and panels
 public class MainGUI {
@@ -15,7 +18,6 @@ public class MainGUI {
     TopPanel topPanel;
     BottomPanel bottomPanel;
     TablePanel tablePanel;
-
 
     // EFFECTS: Initializes frame
     public MainGUI() {
@@ -29,8 +31,18 @@ public class MainGUI {
         frame.add(bottomPanel,BorderLayout.SOUTH);
 
 
-        //Create and set up the window.
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Close Window
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                EventLog el = EventLog.getInstance();
+                for (Event next : el) {
+                    System.out.println(next.toString());
+                }
+                System.exit(0);
+            }
+        });
 
         //Display the window.
         frame.pack();
@@ -92,6 +104,4 @@ public class MainGUI {
     public Tracker getTracker() {
         return tracker;
     }
-
-
 }

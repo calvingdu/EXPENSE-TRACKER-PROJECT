@@ -118,8 +118,6 @@ public class BottomPanel extends JPanel {
                 // checks for budget notification or over budget
                 checkNotifications();
                 main.update();
-
-                System.out.println(tracker.notifyNearBudget());
             }
         });
 
