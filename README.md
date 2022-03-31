@@ -33,7 +33,7 @@ change the name of
 - As a user, I want to be able to save my categories and my expenses  
 - As a user, I want to be able to be able to load my previously created categories and my expenses  
 
-## Sample Event Log
+## Phase 4: Task 2
 Wed Mar 30 12:45:39 PDT 2022
 Set Budget: $1000.0
 Wed Mar 30 12:45:41 PDT 2022
@@ -52,3 +52,11 @@ Wed Mar 30 12:46:08 PDT 2022
 Added Expense: category2 // 100 // $100.0
 Wed Mar 30 12:46:08 PDT 2022
 Notified Over Budget
+
+## Phase 4: Task 3
+- I would work on the cohesiveness of my code as I can see that there are bits that would be difficult to 
+understand without my explanation or prior knowledge 
+  - This also relates to the entire project itself/app itself not being very intuitive
+- I have instances where I could implement the observer pattern instead of all the update() methods I use
+- I have instances of coupling where category and the tracker itself both keep track of budgets, notification amounts
+that I would work to remove 

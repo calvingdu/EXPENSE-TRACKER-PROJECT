@@ -43,6 +43,7 @@ public class TablePanel extends JPanel {
         return scrollPane;
     }
 
+    // MODIFIES: this
     // EFFECTS: Updates table to be up to date with tracker
     public void updateTrackerTable() {
         model.setRowCount(0);
@@ -55,6 +56,7 @@ public class TablePanel extends JPanel {
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: Changes table look
     private void editTable(JTable table) {
         Font headerFont = new Font("Serif", Font.BOLD, 24);
@@ -74,6 +76,7 @@ public class TablePanel extends JPanel {
         table.setFont(tableFont);
     }
 
+    // MODIFIES: tracker
     // EFFECTS: Sets tracker to be tracker used in mainGUI
     public void setTracker(Tracker newTracker) {
         tracker = newTracker;

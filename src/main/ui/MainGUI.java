@@ -49,18 +49,21 @@ public class MainGUI {
         frame.setVisible(true);
     }
 
+    // MODIFIES: topPanel, tablePanel
     // EFFECTS: updates the labels and table to represent data from the tracker
     public void update() {
         topPanel.updateLabels();
         tablePanel.updateTrackerTable();
     }
 
+    // MODIFIES: topPanel, bottomPanel
     // EFFECTS: updates the ComboBoxes to represent the categories in tracker
     public void updateCategoryBox() {
         topPanel.updateCategoryComboBox();
         bottomPanel.updateCategoryComboBox();
     }
 
+    // MODIFIES: tablePanel
     // EFFECTS: filters table to a selection in the top panel
     public void filterTable(String input) {
         TableModel model = tablePanel.getModel();
@@ -81,6 +84,7 @@ public class MainGUI {
 
     }
 
+    // MODIFIES: tablePanel, bottomPanel
     // EFFECTS: Sets trackers in all panels, so they're all the same
     public void setTrackers(Tracker tracker) {
         this.tracker = tracker;

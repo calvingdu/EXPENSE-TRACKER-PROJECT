@@ -29,7 +29,7 @@ public class Tracker implements Writable {
 
     // REQUIRES: amount >= 0
     // MODIFIES: this
-    // EFFECTS: Sets total budget and changes amountLeft to be budget - spent
+    // EFFECTS: Sets total budget and changes amountLeft to be budget - spent and adds it to event log
     public void setTotalBudget(double amount) {
         totalBudget = amount;
         amountLeftInBudget = totalBudget - totalSpent;
@@ -43,7 +43,7 @@ public class Tracker implements Writable {
     // REQUIRES: amount >= 0
     // MODIFIES: this
     // EFFECTS: set the amount of $ the user will be notified at when they have that amount left
-    // in their budget
+    // in their budget and adds it to event log
     public void setBudgetNotification(double amount) {
         budgetNotification = amount;
         EventLog.getInstance().logEvent(new Event("Set Notification Amount: $" + amount));
@@ -88,7 +88,7 @@ public class Tracker implements Writable {
 
     // REQUIRES: name length is non-zero, amount >= 0
     // MODIFIES: this
-    // EFFECTS: Creates a new category if it doesn't already exist
+    // EFFECTS: Creates a new category if it doesn't already exist and adds it to event log
     public void newCategory(String name, double amount) {
         Category category = new Category(name, amount);
         if (!doesCategoryExist(name)) {

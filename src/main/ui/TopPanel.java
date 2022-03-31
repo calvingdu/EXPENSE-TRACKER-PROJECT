@@ -123,6 +123,7 @@ public class TopPanel extends JPanel {
         return loadButton;
     }
 
+    // MODIFIES: this
     // EFFECTS: creates labels
     public JPanel createNamesPanel() {
         ArrayList<JLabel> labels = new ArrayList<>();
