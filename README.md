@@ -54,9 +54,6 @@ Wed Mar 30 12:46:08 PDT 2022
 Notified Over Budget
 
 ## Phase 4: Task 3
-- I would work on the cohesiveness of my code as I can see that there are bits that would be difficult to 
-understand without my explanation or prior knowledge 
-  - This also relates to the entire project itself/app itself not being very intuitive
 - I have instances where I could implement the observer pattern instead of all the update() methods I use
 - I have instances of coupling where category and the tracker itself both keep track of budgets, notification amounts
 that I would work to remove 
