@@ -4,11 +4,14 @@ package ui;
 import model.Event;
 import model.EventLog;
 import model.Tracker;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.io.IOException;
 
 
 // Creates GUI with table and panels
@@ -18,12 +21,20 @@ public class MainGUI {
     TopPanel topPanel;
     BottomPanel bottomPanel;
     TablePanel tablePanel;
+    JFrame initialFrame;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    private static final String JSON_STORE = "./data/tracker.json";
 
-    // EFFECTS: Initializes frame
+    // EFFECTS: Initializes mainGUI
     public MainGUI() {
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+
         tablePanel = new TablePanel(tracker);
         topPanel = new TopPanel(this);
         bottomPanel = new BottomPanel(this);
+
 
         frame.setLayout(new BorderLayout());
         frame.add(topPanel,BorderLayout.NORTH);
@@ -44,9 +55,29 @@ public class MainGUI {
             }
         });
 
-        //Display the window.
-        frame.pack();
-        frame.setVisible(true);
+        init();
+    }
+
+    // EFFECTS: Brings up initializing frame
+    public void init() {
+        initialFrame = new InitialFrame(this);
+        initialFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        initialFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                EventLog el = EventLog.getInstance();
+                for (Event next : el) {
+                    System.out.println(next.toString());
+                }
+                initialFrame.dispose();
+                frame.pack();
+                frame.setVisible(true);
+            }
+        });
+
+        initialFrame.pack();
+        initialFrame.setLocationRelativeTo(null);
+        initialFrame.setVisible(true);
     }
 
     // MODIFIES: topPanel, tablePanel
@@ -88,6 +119,7 @@ public class MainGUI {
     // EFFECTS: Sets trackers in all panels, so they're all the same
     public void setTrackers(Tracker tracker) {
         this.tracker = tracker;
+        topPanel.setTracker(tracker);
         tablePanel.setTracker(tracker);
         bottomPanel.setTracker(tracker);
     }
@@ -107,5 +139,13 @@ public class MainGUI {
 
     public Tracker getTracker() {
         return tracker;
+    }
+
+    public JsonReader getJsonReader() {
+        return jsonReader;
+    }
+
+    public JsonWriter getJsonWriter() {
+        return jsonWriter;
     }
 }

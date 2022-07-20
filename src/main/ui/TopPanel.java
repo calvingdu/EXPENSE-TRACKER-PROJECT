@@ -1,6 +1,8 @@
 package ui;
 
 import model.Category;
+import model.Event;
+import model.EventLog;
 import model.Tracker;
 
 import javax.swing.*;
@@ -45,8 +47,8 @@ public class TopPanel extends JPanel {
         this.main = main;
         frame = main.getFrame();
         this.tracker = main.getTracker();
-        jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
+        jsonWriter = main.getJsonWriter();
+        jsonReader = main.getJsonReader();
 
         setLayout(new BorderLayout());
         JPanel nameSaveLoad = createNameSaveLoad();
@@ -55,7 +57,6 @@ public class TopPanel extends JPanel {
         add(topLabelsPanel,BorderLayout.CENTER);
         JPanel settingsPanel = createSettingsPanel();
         add(settingsPanel,BorderLayout.SOUTH);
-
     }
 
     // EFFECTS: creates Expense Tracker Label, and save/load buttons
@@ -71,6 +72,7 @@ public class TopPanel extends JPanel {
         loadButton = createLoadButton();
         saveButton.setFont(buttonFont);
         loadButton.setFont(buttonFont);
+
         saveButton.setPreferredSize(new Dimension(300,20));
         loadButton.setPreferredSize(new Dimension(300,20));
         panel.add(saveButton);
@@ -296,6 +298,12 @@ public class TopPanel extends JPanel {
             }
         });
         return button;
+    }
+
+    // Modifies: this
+    // EFFECTS: sets tracker
+    public void setTracker(Tracker tracker) {
+        this.tracker = tracker;
     }
 }
 

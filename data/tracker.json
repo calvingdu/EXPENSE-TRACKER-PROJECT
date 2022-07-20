@@ -1,46 +1,34 @@
 {
-    "over": 50,
-    "notification": 100,
-    "left": -50,
-    "spent": 1050,
+    "over": 0,
+    "notification": 200,
+    "left": 2900,
+    "spent": 100,
     "categories": [
-        {
-            "over": 850,
-            "notification": 0,
-            "left": -850,
-            "spent": 950,
-            "category": "category1",
-            "budget": 100
-        },
         {
             "over": 0,
             "notification": 0,
             "left": 0,
             "spent": 100,
-            "category": "category2",
+            "category": "Clothe",
+            "budget": 100
+        },
+        {
+            "over": 0,
+            "notification": 0,
+            "left": 100,
+            "spent": 0,
+            "category": "Food",
             "budget": 100
         }
     ],
     "category names": [
-        {"name": "category1"},
-        {"name": "category2"}
+        {"name": "Clothe"},
+        {"name": "Food"}
     ],
-    "expenses": [
-        {
-            "item": "100",
-            "amount": 100,
-            "category": "category1"
-        },
-        {
-            "item": "850",
-            "amount": 850,
-            "category": "category1"
-        },
-        {
-            "item": "100",
-            "amount": 100,
-            "category": "category2"
-        }
-    ],
-    "budget": 1000
+    "expenses": [{
+        "item": "500",
+        "amount": 100,
+        "category": "Clothe"
+    }],
+    "budget": 3000
 }
