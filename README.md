@@ -54,6 +54,5 @@ Wed Mar 30 12:46:08 PDT 2022
 Notified Over Budget
 
 ## Phase 4: Task 3
-- I have instances where I could implement the observer pattern instead of all the update() methods I use
 - I have instances of coupling where category and the tracker itself both keep track of budgets, notification amounts
 that I would work to remove 
