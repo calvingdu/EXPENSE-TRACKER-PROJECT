@@ -1,4 +1,5 @@
 # Budget and Expenses Tracker
+# By Calvin Du
 This application will be used to keep track of expenses
 that the user inputs in order to categorize, organize and keep track of as well 
 as  notify the user when the budget is about to be surpassed.
